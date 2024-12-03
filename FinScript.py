@@ -55,6 +55,9 @@ class FinScriptInterpreter:
             elif s.__class__.__name__ == "ReassignmentValue":
                 self.state[s.name] = s.value
 
+            # Next is either refactor so that Var or Value doesn't matter
+            # Or next is do math expressions
+
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')
 interpreter = FinScriptInterpreter()
