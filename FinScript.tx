@@ -7,7 +7,7 @@ Statement:
 ;
 
 Output:
-    'print' '(' content=STRING ')'
+    'print' '(' content=Value ')'
 ;
 
 Declaration:
