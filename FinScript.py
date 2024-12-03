@@ -10,9 +10,12 @@ class FinScriptInterpreter:
         self.state = {}
 
     def interpret(self, model):
-        for s in model.statements:           
+        for s in model.statements:          
             if s.__class__.__name__ == "OutputVar":
-                print(self.state[s.content])
+                if s.content in self.state:
+                    print(self.state[s.content])
+                else:
+                    print("Variable not found: " + s.content)
             elif s.__class__.__name__ == "OutputValue":
                 print(s.content)
             elif s.__class__.__name__ == "Declaration":
