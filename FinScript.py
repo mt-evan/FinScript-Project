@@ -24,7 +24,7 @@ class FinScriptInterpreter:
             elif s.__class__.__name__ == "DeclarationValue":
                 self.state[s.name] = s.value
             elif s.__class__.__name__ == "DeclarationVar":
-                if s.value in self.state:
+                if s.value in self.state: # Check if RHS variable is in state
                     self.state[s.name] = self.state[s.value]
                 else:
                     print(f"Variable not found: {s.value}")
