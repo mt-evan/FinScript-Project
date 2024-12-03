@@ -1,6 +1,6 @@
 print("Hello there!")
 print("Hello again!")
-let x = 7
+let x = true
 print(x)
 
 let y = x

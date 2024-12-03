@@ -17,6 +17,7 @@ class FinScriptInterpreter:
                     print(self.state[s.content])
                 else:
                     print("Variable not found: " + s.content)
+                    break
             elif s.__class__.__name__ == "OutputValue":
                 print(s.content)
 
@@ -28,6 +29,7 @@ class FinScriptInterpreter:
                     self.state[s.name] = self.state[s.value]
                 else:
                     print(f"Variable not found: {s.value}")
+                    break
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')
