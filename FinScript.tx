@@ -14,6 +14,14 @@ Output:
     OutputVar | OutputValue
 ;
 
+Declaration:
+    DeclarationVar | DeclarationValue
+;
+
+Reassignment:
+    ReassignmentVar | ReassignmentValue
+;
+
 OutputVar:
     'print' '(' content=ID ')' 
 ;
@@ -22,20 +30,12 @@ OutputValue:
     'print' '(' content=Value ')' 
 ;
 
-Declaration:
-    DeclarationVar | DeclarationValue
-;
-
 DeclarationVar:
     'let' name=ID '=' value=ID
 ;
 
 DeclarationValue:
     'let' name=ID ('=' value=Value)?
-;
-
-Reassignment:
-    ReassignmentVar | ReassignmentValue
 ;
 
 ReassignmentVar:
