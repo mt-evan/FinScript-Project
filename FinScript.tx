@@ -3,7 +3,11 @@ Program:
 ;
 
 Statement:
-    Output | Declaration | Reassignment
+    Output | Assignment
+;
+
+Assignment:
+    Declaration | Reassignment
 ;
 
 Output:
