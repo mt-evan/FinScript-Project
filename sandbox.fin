@@ -1,7 +1,12 @@
-print("Hello there!")
-print("Hello again!")
-let x = False
+let x = 6
 print(x)
 
 let y = x
 print(y)
+
+let string
+print(string)
+string = "this is my string"
+print(string)
+string = 78
+print(string)

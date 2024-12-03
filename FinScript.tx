@@ -3,7 +3,7 @@ Program:
 ;
 
 Statement:
-    Output | Declaration
+    Output | Declaration | Reassignment
 ;
 
 Output:
@@ -28,6 +28,18 @@ DeclarationVar:
 
 DeclarationValue:
     'let' name=ID ('=' value=Value)?
+;
+
+Reassignment:
+    ReassignmentVar | ReassignmentValue
+;
+
+ReassignmentVar:
+    name=ID '=' value=ID
+;
+
+ReassignmentValue:
+    name=ID '=' value=Value
 ;
 
 Value:
