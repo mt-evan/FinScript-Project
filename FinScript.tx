@@ -7,7 +7,27 @@ Statement:
 ;
 
 Output:
-    'print' '(' content=Value ')'
+    OutputString | OutputNumber | OutputFloat | OutputVar | OutputBool
+;
+
+OutputString:
+    'print' '(' content=STRING ')' 
+;
+
+OutputNumber:
+    'print' '(' content=NUMBER ')' 
+;
+
+OutputFloat:
+    'print' '(' content=FLOAT ')' 
+;
+
+OutputVar:
+    'print' '(' content=ID ')' 
+;
+
+OutputBool:
+    'print' '(' content=BOOL ')' 
 ;
 
 Declaration:

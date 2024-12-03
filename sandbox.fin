@@ -1,3 +1,4 @@
 print("Hello there!")
 print("Hello again!")
+let x = 5
 print(x)
