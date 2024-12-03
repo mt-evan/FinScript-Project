@@ -3,7 +3,7 @@ Program:
 ;
 
 Statement:
-    Output | Assignment
+    (Output | Assignment) ';'
 ;
 
 Assignment:
