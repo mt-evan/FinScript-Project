@@ -7,27 +7,15 @@ Statement:
 ;
 
 Output:
-    OutputString | OutputNumber | OutputFloat | OutputVar | OutputBool
-;
-
-OutputString:
-    'print' '(' content=STRING ')' 
-;
-
-OutputNumber:
-    'print' '(' content=NUMBER ')' 
-;
-
-OutputFloat:
-    'print' '(' content=FLOAT ')' 
+    OutputVar | OutputValue
 ;
 
 OutputVar:
     'print' '(' content=ID ')' 
 ;
 
-OutputBool:
-    'print' '(' content=BOOL ')' 
+OutputValue:
+    'print' '(' content=Value ')' 
 ;
 
 Declaration:
@@ -35,7 +23,7 @@ Declaration:
 ;
 
 Value:
-    ID | STRING | NUMBER
+    STRING | NUMBER | FLOAT | BOOL
 ;
 
 Comment:
