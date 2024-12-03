@@ -19,7 +19,7 @@ OutputValue:
 ;
 
 Declaration:
-    'let' name=ID '=' value=Value
+    'let' name=ID ('=' value=Value)?
 ;
 
 Value:
