@@ -19,6 +19,14 @@ OutputValue:
 ;
 
 Declaration:
+    DeclarationVar | DeclarationValue
+;
+
+DeclarationVar:
+    'let' name=ID '=' value=ID
+;
+
+DeclarationValue:
     'let' name=ID ('=' value=Value)?
 ;
 

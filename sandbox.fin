@@ -1,7 +1,7 @@
 print("Hello there!")
 print("Hello again!")
-let x = 5
+let x = 7
 print(x)
 
-let y
+let y = x
 print(y)
