@@ -1,0 +1,16 @@
+// Declare initial values
+let income = 5000 USD
+let rent = 1500 USD
+let groceries = 300 USD
+
+// Calculate savings
+calculate expenses = rent + groceries
+calculate savings = income - expenses
+
+// Conditional logic
+if savings > 1000 USD then
+    print("You are saving well!")
+endif
+
+// Output result
+print("Monthly savings: " + savings)

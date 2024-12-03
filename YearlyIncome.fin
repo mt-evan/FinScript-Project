@@ -1,0 +1,3 @@
+// This program is for calculating total income before taxes from all sources of income
+let hourlyWage = 20 USD
+let hoursPerWeek = 40

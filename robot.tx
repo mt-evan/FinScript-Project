@@ -1,0 +1,34 @@
+Program:
+  'begin'
+    commands=InitialCommand
+    commands*=Command
+  'end'
+;
+
+Command:
+  SpinCommand | MoveCommand | OriginCommand
+;
+
+InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+
+SpinCommand:
+  'spin'
+;
+
+MoveCommand:
+  direction=Direction (steps=INT)?
+;
+
+OriginCommand:
+  'origin'
+;
+
+Direction:
+  "upleft"|"upright"|"downleft"|"downright"|"up"|"down"|"left"|"right"
+;
+
+Comment:
+  /\/\/.*$/
+;

@@ -1,0 +1,15 @@
+Program: 
+    statements*=Statement
+;
+
+Statement:
+    Output
+;
+
+Output:
+    'print' '(' content=STRING ')'
+;
+
+Comment:
+    /\/\/.*$/
+;
