@@ -3,11 +3,19 @@ Program:
 ;
 
 Statement:
-    Output
+    Output | Declaration
 ;
 
 Output:
     'print' '(' content=STRING ')'
+;
+
+Declaration:
+    'let' name=ID '=' value=Value
+;
+
+Value:
+    ID | STRING | NUMBER
 ;
 
 Comment:
