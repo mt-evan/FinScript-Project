@@ -3,7 +3,11 @@ Program:
 ;
 
 Statement:
-    Output | Assignment
+    Output | Assignment | IfStatement
+;
+
+IfStatement:
+    'if' '(' condition=Expression ')' '{' thenBody+=Statement* '}' ('else' '{' elseBody+=Statement* '}')?
 ;
 
 Output:

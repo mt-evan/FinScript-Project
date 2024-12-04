@@ -1,37 +1,19 @@
-// Print a greeting
-print("Hello, FinScript!")
+// Test if statements
+let x <- 10
+let y <- 20
 
-// Variable declaration and arithmetic expression
-let x <- 5
-print(x)  // should print 5
+if (x < y) {
+    print("x is less than y")
+} else {
+    print("x is not less than y")
+}
 
-let y <- 2 + x * x
-print(y)  // should print 27 (2 + 5*5)
+if (x == 10) {
+    print("x is 10")
+}
 
-// Boolean operations and printing result
-let bool <- true && false
-print(bool)  // should print False
-
-let bool2 <- true || false
-print(bool2)  // should print True
-
-// Comparison operations
-let isGreater <- 5 < x
-print(isGreater)  // should print False because 5 < 5 is False, so should print False
-
-let isEqual <- x == 5
-print(isEqual)  // should print True
-
-let isNotEqual <- x != 10
-print(isNotEqual)  // should print True
-
-// Reassigning variables
-x <- 10
-print(x)  // should print 10
-
-// Combine boolean and arithmetic
-let result <- (x > 5) && (y > 10)
-print(result)  // should print True
-
-let finalResult <- (x < 5) || (y == 27) && False
-print(finalResult)  // should print True
+if (x > y) {
+    print("This won't print")
+} else {
+    print("This will print")
+}

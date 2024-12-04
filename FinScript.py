@@ -11,41 +11,30 @@ class FinScriptInterpreter:
         self.state = {}
 
     def math_parser(self, expr):
-        
-        
-        # Replace boolean operators and literals with Python equivalents
+        # Same as before
         expr = expr.replace("||", " or ").replace("&&", " and ")
         expr = expr.replace("true", "True").replace("false", "False")
-
-        
-        
-        # Tokenize the expression properly (handle comparison operators)
         tokens = re.findall(r'\d+|\w+|[+\-*/()=<>&!|]|==|<=|>=|!=', expr)
-
-        # Replace variable names with their values from the state
         for i, token in enumerate(tokens):
-            if token in self.state:  # If the token is a variable
-                tokens[i] = str(self.state[token])  # Replace with its value
-
-        # Join the tokens back into a string expression with correct spacing
+            if token in self.state:
+                tokens[i] = str(self.state[token])
         evaluated_expr = " ".join(tokens)
-        evaluated_expr = evaluated_expr.replace(" = = ", " == ").replace("! = ", " != ")    
-        
+        evaluated_expr = evaluated_expr.replace(" = = ", " == ").replace("! = ", " != ")
         try:
-            # Evaluate the resulting mathematical/boolean expression
             result = eval(evaluated_expr)
         except Exception as e:
             print(f"Error evaluating expression '{evaluated_expr}': {e}")
             sys.exit(1)
-
         return result
 
     def interpret(self, model):
-        for s in model.statements:
+        # Ensure the input is iterable
+        statements = model if isinstance(model, list) else model.statements
+
+        for s in statements:
             # Output
             if s.__class__.__name__ == "PrintString":
                 print(s.content)
-
             elif s.__class__.__name__ == "Print":
                 if s.content in self.state:
                     print(self.state[s.content])
@@ -61,13 +50,22 @@ class FinScriptInterpreter:
                 value_to_store = self.math_parser(str(s.expr))
                 self.state[s.var] = value_to_store
 
-            # Reassignment (using <- operator for assignment)
+            # Reassignment
             elif s.__class__.__name__ == "Reassignment":
                 if s.var not in self.state:
                     print(f"Variable '{s.var}' not declared")
                     sys.exit(1)
                 value_to_store = self.math_parser(str(s.expr))
                 self.state[s.var] = value_to_store
+
+            # If Statement
+            elif s.__class__.__name__ == "IfStatement":
+                condition_result = self.math_parser(str(s.condition))
+                if condition_result:
+                    self.interpret(s.thenBody)  # Execute the 'then' body
+                elif s.elseBody:  # Execute the 'else' body if it exists
+                    self.interpret(s.elseBody)
+
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')
