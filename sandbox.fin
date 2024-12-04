@@ -33,5 +33,5 @@ print(x)  // should print 10
 let result <- (x > 5) && (y > 10)
 print(result)  // should print True
 
-let finalResult <- (x < 5) || (y == 27)
+let finalResult <- (x < 5) || (y == 27) && False
 print(finalResult)  // should print True
