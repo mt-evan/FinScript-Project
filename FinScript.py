@@ -5,20 +5,23 @@ import sys
 # Load the meta-model
 finscript_mm = metamodel_from_file('FinScript.tx')
 
-# Interpreter Class
-# Interpreter Class
 class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
 
     def math_parser(self, expr):
-        # Same as before
+    # Replace FinScript operators with Python equivalents
         expr = expr.replace("||", " or ").replace("&&", " and ")
         expr = expr.replace("true", "True").replace("false", "False")
+        expr = expr.replace("!", " not ")
+
+        # Tokenize the expression
         tokens = re.findall(r'\d+|\w+|[+\-*/%()=<>&!|]|==|<=|>=|!=', expr)
         for i, token in enumerate(tokens):
             if token in self.state:
                 tokens[i] = str(self.state[token])
+
+        # Reassemble the tokens into an evaluable expression
         evaluated_expr = " ".join(tokens)
         evaluated_expr = evaluated_expr.replace(" = = ", " == ").replace("! = ", " != ")
         try:
@@ -27,6 +30,7 @@ class FinScriptInterpreter:
             print(f"Error evaluating expression '{evaluated_expr}': {e}")
             sys.exit(1)
         return result
+
 
     def interpret(self, model):
         # Ensure the input is iterable

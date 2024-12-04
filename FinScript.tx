@@ -57,7 +57,11 @@ BooleanExpression:
 ;
 
 BooleanTerm:
-    Comparison ('&&' Comparison)*
+    BooleanFactor ('&&' BooleanFactor)*
+;
+
+BooleanFactor:
+    ('!' BooleanFactor) | Comparison
 ;
 
 Comparison:
