@@ -60,11 +60,24 @@ class FinScriptInterpreter:
 
             # If Statement
             elif s.__class__.__name__ == "IfStatement":
+                # Evaluate the main if condition
                 condition_result = self.math_parser(str(s.condition))
                 if condition_result:
                     self.interpret(s.thenBody)  # Execute the 'then' body
-                elif s.elseBody:  # Execute the 'else' body if it exists
-                    self.interpret(s.elseBody)
+                else:
+                    # Check elif clauses
+                    executed_elif = False
+                    for elif_clause in s.elifClauses:
+                        elif_condition_result = self.math_parser(str(elif_clause.condition))
+                        if elif_condition_result:
+                            self.interpret(elif_clause.body)  # Execute the 'elif' body
+                            executed_elif = True
+                            break
+                    
+                    # If no elif executed, check for else body
+                    if not executed_elif and s.elseBody:
+                        self.interpret(s.elseBody)
+
 
 
 # Test Program

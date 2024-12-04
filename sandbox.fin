@@ -1,19 +1,11 @@
-// Test if statements
-let x <- 10
-let y <- 20
+let x <- 40 / 4
 
-if (x < y) {
-    print("x is less than y")
+if (x > 10) {
+    print("x is greater than 10")
+} elif (x == 5) {
+    print("x is equal to 5")
+} elif (x < 3) {
+    print("x is less than 3")
 } else {
-    print("x is not less than y")
-}
-
-if (x == 10) {
-    print("x is 10")
-}
-
-if (x > y) {
-    print("This won't print")
-} else {
-    print("This will print")
+    print("x does not match any condition")
 }
