@@ -1,8 +1,8 @@
-// Test 3: Boolean Logic
-let x <- true
-let y <- false
-if (x && !y) {
-    print("True AND False is False") // Should not print
+let y <- 2
+if (y > 3) {
+    print("y is greater than 3")
+} elif (y == 2) {
+    print("y is equal to 2") 
 } else {
-    print("True AND False evaluates correctly") // Should print
+    print("y is less than 2")
 }

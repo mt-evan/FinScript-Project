@@ -10,25 +10,45 @@ class FinScriptInterpreter:
         self.state = {}
 
     def math_parser(self, expr):
-    # Replace FinScript operators with Python equivalents
-        expr = expr.replace("||", " or ").replace("&&", " and ")
-        expr = expr.replace("true", "True").replace("false", "False")
-        expr = expr.replace("!", " not ")
 
-        # Tokenize the expression
-        tokens = re.findall(r'\d+|\w+|[+\-*/%()=<>&!|]|==|<=|>=|!=', expr)
+        # Replace multi-character operators (==, !=, <=, >=) after tokenization
+        expr = expr.replace("==", " __EQUAL__ ")
+        expr = expr.replace("!=", " __NOT_EQUAL__")
+        expr = expr.replace(">=", " __GREATER_EQUAL__ ")
+        expr = expr.replace("<=", " __LESSER_EQUAL__ ")
+
+        # Replace logical operators and boolean values
+        expr = expr.replace("||", " or ")
+        expr = expr.replace("&&", " and ")
+        expr = expr.replace("!", " not ")
+        expr = expr.replace("true", "True").replace("false", "False")
+
+        # Tokenize the expression first without replacing operators
+        tokens = re.findall(r'\d+|[a-zA-Z_][a-zA-Z0-9_]*|[+\-*/%()=<>&!|]|\b(?:==|!=|<=|>=)\b', expr)
+
+        # Replace multi-character operators
+        tokens = [token.replace("__EQUAL__", "==")
+                  .replace("__NOT_EQUAL__", "!=")
+                  .replace("__GREATER_EQUAL__", ">=")
+                  .replace("__LESSER_EQUAL__", "<=")
+                  for token in tokens]
+
+        # Replace variables with their values from the state
         for i, token in enumerate(tokens):
             if token in self.state:
                 tokens[i] = str(self.state[token])
+            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token):  # If it's a variable not in state
+                print(f"Error: Variable '{token}' not defined.")  # For debugging
 
-        # Reassemble the tokens into an evaluable expression
-        evaluated_expr = " ".join(tokens)
-        evaluated_expr = evaluated_expr.replace(" = = ", " == ").replace("! = ", " != ")
+        # Now reassemble the tokens and replace operators correctly
+        expr = " ".join(tokens)
+
         try:
-            result = eval(evaluated_expr)
+            result = eval(expr)
         except Exception as e:
-            print(f"Error evaluating expression '{evaluated_expr}': {e}")
+            print(f"Error evaluating expression '{expr}': {e}")
             sys.exit(1)
+
         return result
 
 

@@ -1,87 +1,115 @@
-Program: 
+// The top-level program that contains all statements
+Program:
     statements*=Statement
 ;
 
+// The different types of statements
 Statement:
     Output | Assignment | IfStatement | ForLoop | WhileLoop
 ;
 
+// If Statement (includes elif and else)
 IfStatement:
-    'if' '(' condition=Expression ')' '{' thenBody+=Statement* '}' 
+    'if' '(' condition=Expression ')' '{' thenBody+=Statement* '}'
     (elifClauses+=ElifClause)*
     ('else' '{' elseBody+=Statement* '}')?
 ;
 
+// Elif Clause for if-elif-else construct
 ElifClause:
     'elif' '(' condition=Expression ')' '{' body+=Statement* '}'
 ;
 
+// For Loop (range-based for loop)
 ForLoop:
     'for' '(' var=ID '<-' start=Expression 'to' end=Expression ')' '{' body+=Statement* '}'
 ;
 
+// While Loop (condition-based while loop)
 WhileLoop:
     'while' '(' condition=Expression ')' '{' body+=Statement* '}'
 ;
 
+// Output Statements
 Output:
     PrintString | Print
 ;
 
+// Print a string
 PrintString:
     'print' '(' content=STRING ')'
 ;
 
+// Print a variable
 Print:
     'print' '(' content=ID ')'
 ;
 
+// Assignment statement (either Declaration or Reassignment)
 Assignment:
     Declaration | Reassignment
 ;
 
+// Declaration of a new variable
 Declaration:
     'let' var=ID '<-' expr=Expression
 ;
 
+// Reassignment of an existing variable
 Reassignment:
     var=ID '<-' expr=Expression
 ;
 
+// Expressions (Boolean expressions as the base case)
 Expression:
     BooleanExpression
 ;
 
+// Boolean expressions: Includes logical not and logical or
 BooleanExpression:
-    BooleanTerm ('||' BooleanTerm)*
+    ('!' BooleanExpression)
+    | BooleanTerm ('||' BooleanTerm)*
 ;
 
+// Boolean terms: Includes logical and
 BooleanTerm:
-    BooleanFactor ('&&' BooleanFactor)*
+    Comparison ('&&' Comparison)*
 ;
 
-BooleanFactor:
-    ('!' BooleanFactor) | Comparison
-;
-
+// Comparison expressions: Includes equality, inequality, and relational operators
 Comparison:
-    Sum (('==' | '!=' | '<' | '>' | '<=' | '>=') Sum)?
+    Sum (('==' | '!=' | '<=' | '>=' | '<' | '>') Sum)?
 ;
 
+// Sum expressions: Includes addition, subtraction, and modulus operators
 Sum:
     Product (('+' | '-' | '%') Product)*
 ;
 
+// Product expressions: Includes multiplication and division
 Product:
     Value (('*' | '/') Value)*
 ;
 
+// Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
     BOOL | INT | ID | '(' Expression ')'
+    | ID
 ;
 
+// Boolean values: true and false
 BOOL: 'true' | 'false';
 
+// Integer values: Integer literals
+INT: /[0-9]+/;
+
+// Identifier: Variable names (alphanumeric with optional underscores)
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
+
+// String literals
+STRING: /"([^"\\]|\\.)*"/;
+
+// Comments
 Comment:
     /\/\/.*$/
 ;
