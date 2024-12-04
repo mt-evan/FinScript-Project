@@ -67,13 +67,19 @@ Expression:
 
 // Boolean expressions: Includes logical not and logical or
 BooleanExpression:
-    ('!' BooleanExpression)
-    | BooleanTerm ('||' BooleanTerm)*
+    BooleanTerm (('||' BooleanTerm)*)  // OR has lower precedence
 ;
 
-// Boolean terms: Includes logical and
+// Boolean terms: Includes logical and and negation
 BooleanTerm:
-    Comparison ('&&' Comparison)*
+    BooleanFactor ('&&' BooleanFactor)*  // AND has higher precedence
+;
+
+// Boolean factor: Includes negation and comparisons
+BooleanFactor:
+    ('!' BooleanFactor)               // NOT has higher precedence, applied to BooleanFactor
+    | Comparison
+    | '(' Expression ')'
 ;
 
 // Comparison expressions: Includes equality, inequality, and relational operators
@@ -83,18 +89,17 @@ Comparison:
 
 // Sum expressions: Includes addition, subtraction, and modulus operators
 Sum:
-    Product (('+' | '-' | '%') Product)*
+    Product (('+' | '-' | '%') Product)* 
 ;
 
 // Product expressions: Includes multiplication and division
 Product:
-    Value (('*' | '/') Value)*
+    Value (('*' | '/') Value)* 
 ;
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
     BOOL | INT | ID | '(' Expression ')'
-    | ID
 ;
 
 // Boolean values: true and false
@@ -111,5 +116,5 @@ STRING: /"([^"\\]|\\.)*"/;
 
 // Comments
 Comment:
-    /\/\/.*$/
+    /\/\/.*$/ 
 ;
