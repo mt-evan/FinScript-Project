@@ -3,7 +3,7 @@ Program:
 ;
 
 Statement:
-    Output | Assignment | IfStatement
+    Output | Assignment | IfStatement | ForLoop | WhileLoop
 ;
 
 IfStatement:
@@ -14,6 +14,14 @@ IfStatement:
 
 ElifClause:
     'elif' '(' condition=Expression ')' '{' body+=Statement* '}'
+;
+
+ForLoop:
+    'for' '(' var=ID '<-' start=Expression 'to' end=Expression ')' '{' body+=Statement* '}'
+;
+
+WhileLoop:
+    'while' '(' condition=Expression ')' '{' body+=Statement* '}'
 ;
 
 Output:
@@ -57,7 +65,7 @@ Comparison:
 ;
 
 Sum:
-    Product (('+' | '-') Product)*
+    Product (('+' | '-' | '%') Product)*
 ;
 
 Product:

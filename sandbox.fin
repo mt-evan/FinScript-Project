@@ -1,11 +1,8 @@
-let x <- 40 / 4
-
-if (x > 10) {
-    print("x is greater than 10")
-} elif (x == 5) {
-    print("x is equal to 5")
-} elif (x < 3) {
-    print("x is less than 3")
+// Test 3: Boolean Logic
+let x <- true
+let y <- false
+if (x && y) {
+    print("True AND False is False") // Should not print
 } else {
-    print("x does not match any condition")
+    print("True AND False evaluates correctly") // Should print
 }

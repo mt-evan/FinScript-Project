@@ -6,6 +6,7 @@ import sys
 finscript_mm = metamodel_from_file('FinScript.tx')
 
 # Interpreter Class
+# Interpreter Class
 class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
@@ -14,7 +15,7 @@ class FinScriptInterpreter:
         # Same as before
         expr = expr.replace("||", " or ").replace("&&", " and ")
         expr = expr.replace("true", "True").replace("false", "False")
-        tokens = re.findall(r'\d+|\w+|[+\-*/()=<>&!|]|==|<=|>=|!=', expr)
+        tokens = re.findall(r'\d+|\w+|[+\-*/%()=<>&!|]|==|<=|>=|!=', expr)
         for i, token in enumerate(tokens):
             if token in self.state:
                 tokens[i] = str(self.state[token])
@@ -60,23 +61,37 @@ class FinScriptInterpreter:
 
             # If Statement
             elif s.__class__.__name__ == "IfStatement":
-                # Evaluate the main if condition
                 condition_result = self.math_parser(str(s.condition))
                 if condition_result:
-                    self.interpret(s.thenBody)  # Execute the 'then' body
+                    self.interpret(s.thenBody)
                 else:
-                    # Check elif clauses
                     executed_elif = False
                     for elif_clause in s.elifClauses:
                         elif_condition_result = self.math_parser(str(elif_clause.condition))
                         if elif_condition_result:
-                            self.interpret(elif_clause.body)  # Execute the 'elif' body
+                            self.interpret(elif_clause.body)
                             executed_elif = True
                             break
-                    
-                    # If no elif executed, check for else body
                     if not executed_elif and s.elseBody:
                         self.interpret(s.elseBody)
+
+            # For Loop
+            elif s.__class__.__name__ == "ForLoop":
+                start = self.math_parser(str(s.start))
+                end = self.math_parser(str(s.end))
+                if s.var in self.state:
+                    print(f"Variable '{s.var}' already declared")
+                    sys.exit(1)
+                for i in range(start, end + 1):
+                    self.state[s.var] = i
+                    self.interpret(s.body)
+                del self.state[s.var]  # Remove loop variable after the loop
+
+            # While Loop
+            elif s.__class__.__name__ == "WhileLoop":
+                while self.math_parser(str(s.condition)):
+                    self.interpret(s.body)
+
 
 
 
