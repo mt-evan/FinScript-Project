@@ -42,6 +42,7 @@ class FinScriptInterpreter:
         statements = model if isinstance(model, list) else model.statements
 
         for s in statements:
+            
             # Output
             if s.__class__.__name__ == "PrintString":
                 print(s.content)
@@ -100,6 +101,15 @@ class FinScriptInterpreter:
             elif s.__class__.__name__ == "WhileLoop":
                 while self.math_parser(str(s.condition)):
                     self.interpret(s.body)
+
+            # Break and Continue
+            if s.__class__.__name__ == "str":
+                if s == "break":
+                    print("Breaking out of loop")
+                    break
+                elif s == "continue":
+                    print("Continuing the loop")
+                    continue
 
 
 
