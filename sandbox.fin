@@ -1,11 +1,8 @@
-for (i <- 1 to 20) {
-    if (i % 3 == 0 && i % 5 == 0) {
-        print("FizzBuzz")
-    } elif (i % 3 == 0) {
-        print("Fizz")
-    } elif (i % 5 == 0) {
-        print("Buzz")
-    } else {
-        print(i)
-    }
+let num <- 8
+if (num % 3 == 0) {
+    print("3")  // Expected output: 3 (Divisible by 3)
+} elif (num % 2 == 0) {
+    print("2")  // Expected output: 2 (Divisible by 2)
+} else {
+    print("0")  // Expected output: 0 (Not divisible by 2 or 3)
 }
