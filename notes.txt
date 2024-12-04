@@ -1,3 +1,19 @@
-negative numbers is an error
+// Boolean expressions with logical operators
+let is_true <- true
+let is_false <- false
 
-decimal numbers are an error
+let result1 <- is_true || is_false
+print(result1)  // Expect true
+
+let result2 <- is_true && is_false
+print(result2)  // Expect false
+
+let result3 <- !is_true
+print(result3)  // Expect false
+
+
+
+##########
+
+That is an error because is_true contains "true"
+and same with is_false

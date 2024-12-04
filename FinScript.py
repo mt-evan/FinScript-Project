@@ -10,34 +10,20 @@ class FinScriptInterpreter:
         self.state = {}
 
     def math_parser(self, expr):
-
-        # Replace multi-character operators (==, !=, <=, >=) after tokenization
-        expr = expr.replace("==", " __EQUAL__ ")
-        expr = expr.replace("!=", " __NOT_EQUAL__")
-        expr = expr.replace(">=", " __GREATER_EQUAL__ ")
-        expr = expr.replace("<=", " __LESSER_EQUAL__ ")
-
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
-        expr = expr.replace("!", " not ")
+        expr = re.sub(r'(?<!!=)!', ' not ', expr) # Replace standalone '!' with ' not '
         expr = expr.replace("true", "True").replace("false", "False")
 
-        # Tokenize the expression first without replacing operators
-        tokens = re.findall(r'\d+\.\d+|\d+|[a-zA-Z_][a-zA0-9_]*|[+\-*/%()=<>&!|]|\b(?:==|!=|<=|>=)\b', expr)
-
-        # Replace multi-character operators
-        tokens = [token.replace("__EQUAL__", "==")
-                  .replace("__NOT_EQUAL__", "!=")
-                  .replace("__GREATER_EQUAL__", ">=")
-                  .replace("__LESSER_EQUAL__", "<=")
-                  for token in tokens]
+        # Tokenize the expression while keeping multi-character operators intact
+        tokens = re.findall(r'\d+\.\d+|\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
 
         # Replace variables with their values from the state
         for i, token in enumerate(tokens):
             if token in self.state:
                 tokens[i] = str(self.state[token])
-            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:  # If it's a variable not in state and not a keyword like "and" or "or"
+            elif re.match(r'[a-zA-Z_][a-zA0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:  # If it's a variable not in state and not a keyword like "and" or "or"
                 print(f"Error: Variable '{token}' not defined.")  # For debugging
 
         # Now reassemble the tokens and replace operators correctly
@@ -50,7 +36,6 @@ class FinScriptInterpreter:
             sys.exit(1)
 
         return result
-
 
     def interpret(self, model):
         # Ensure the input is iterable
