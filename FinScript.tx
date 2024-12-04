@@ -3,52 +3,62 @@ Program:
 ;
 
 Statement:
-    (Output | Assignment) ';'
+    Output | Assignment
+;
+
+Output:
+    PrintString | Print
+;
+
+PrintString:
+    'print' '(' content=STRING ')'
+;
+
+Print:
+    'print' '(' content=ID ')'
 ;
 
 Assignment:
     Declaration | Reassignment
 ;
 
-Output:
-    OutputVar | OutputValue
-;
-
 Declaration:
-    DeclarationVar | DeclarationValue
+    'let' var=ID '<-' expr=Expression
 ;
 
 Reassignment:
-    ReassignmentVar | ReassignmentValue
+    var=ID '<-' expr=Expression
 ;
 
-OutputVar:
-    'print' '(' content=ID ')' 
+Expression:
+    BooleanExpression
 ;
 
-OutputValue:
-    'print' '(' content=Value ')' 
+BooleanExpression:
+    BooleanTerm ('||' BooleanTerm)*
 ;
 
-DeclarationVar:
-    'let' name=ID '=' value=ID
+BooleanTerm:
+    Comparison ('&&' Comparison)*
 ;
 
-DeclarationValue:
-    'let' name=ID ('=' value=Value)?
+Comparison:
+    Sum (('==' | '!=' | '<' | '>' | '<=' | '>=') Sum)?
 ;
 
-ReassignmentVar:
-    name=ID '=' value=ID
+Sum:
+    Product (('+' | '-') Product)*
 ;
 
-ReassignmentValue:
-    name=ID '=' value=Value
+Product:
+    Value (('*' | '/') Value)*
 ;
 
 Value:
-    STRING | NUMBER | FLOAT
+    BOOL | INT | ID | '(' Expression ')'
 ;
+
+BOOL: 'true' | 'false';
 
 Comment:
     /\/\/.*$/

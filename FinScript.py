@@ -1,4 +1,5 @@
 from textx import metamodel_from_file
+import re
 import sys
 
 # Load the meta-model
@@ -8,54 +9,65 @@ finscript_mm = metamodel_from_file('FinScript.tx')
 class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
-        self.keywords = ['let', 'print', 'calculate', 'if', 'then', 'endif', 'True', 'False']
+
+    def math_parser(self, expr):
+        
+        
+        # Replace boolean operators and literals with Python equivalents
+        expr = expr.replace("||", " or ").replace("&&", " and ")
+        expr = expr.replace("true", "True").replace("false", "False")
+
+        
+        
+        # Tokenize the expression properly (handle comparison operators)
+        tokens = re.findall(r'\d+|\w+|[+\-*/()=<>&!|]|==|<=|>=|!=', expr)
+
+        # Replace variable names with their values from the state
+        for i, token in enumerate(tokens):
+            if token in self.state:  # If the token is a variable
+                tokens[i] = str(self.state[token])  # Replace with its value
+
+        # Join the tokens back into a string expression with correct spacing
+        evaluated_expr = " ".join(tokens)
+        evaluated_expr = evaluated_expr.replace(" = = ", " == ").replace("! = ", " != ")    
+        
+        try:
+            # Evaluate the resulting mathematical/boolean expression
+            result = eval(evaluated_expr)
+        except Exception as e:
+            print(f"Error evaluating expression '{evaluated_expr}': {e}")
+            sys.exit(1)
+
+        return result
 
     def interpret(self, model):
         for s in model.statements:
             # Output
-            if s.__class__.__name__ == "OutputVar":
+            if s.__class__.__name__ == "PrintString":
+                print(s.content)
+
+            elif s.__class__.__name__ == "Print":
                 if s.content in self.state:
                     print(self.state[s.content])
                 else:
-                    print("Variable not found: " + s.content)
-                    break
-            elif s.__class__.__name__ == "OutputValue":
-                print(s.content)
+                    print(f"Variable '{s.content}' not declared")
+                    sys.exit(1)
 
             # Declaration
-            elif s.__class__.__name__ == "DeclarationValue":
-                self.state[s.name] = s.value
-            elif s.__class__.__name__ == "DeclarationVar":
-                if s.value in self.state: # Check if RHS variable is in state
-                    self.state[s.name] = self.state[s.value]
-                else:
-                    # Check if it is "True" or "False"
-                    if s.value == "True":
-                            self.state[s.name] = True
-                    elif s.value == "False":
-                            self.state[s.name] = False
-                    else:
-                        print(f"Variable not found: {s.value}")
-                        break
+            elif s.__class__.__name__ == "Declaration":
+                if s.var in self.state:
+                    print(f"Variable '{s.var}' already declared")
+                    sys.exit(1)
+                value_to_store = self.math_parser(str(s.expr))
+                self.state[s.var] = value_to_store
 
-            # Reassignment
-            elif s.__class__.__name__ == "ReassignmentVar":
-                self.state[s.name] = s.value
-                if s.value in self.state: # Check if RHS variable is in state
-                    self.state[s.name] = self.state[s.value]
-                else:
-                    # Check if it is "True" or "False"
-                    if s.value == "True":
-                            self.state[s.name] = True
-                    elif s.value == "False":
-                            self.state[s.name] = False
-                    else:
-                        print(f"Variable not found: {s.value}")
-                        break
-            elif s.__class__.__name__ == "ReassignmentValue":
-                self.state[s.name] = s.value
-
-            # next is do math expressions
+            # Reassignment (using <- operator for assignment)
+            elif s.__class__.__name__ == "Reassignment":
+                if s.var not in self.state:
+                    print(f"Variable '{s.var}' not declared")
+                    sys.exit(1)
+                value_to_store = self.math_parser(str(s.expr))
+                self.state[s.var] = value_to_store
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')
