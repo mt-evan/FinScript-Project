@@ -94,22 +94,54 @@ class FinScriptInterpreter:
                     sys.exit(1)
                 for i in range(start, end + 1):
                     self.state[s.var] = i
-                    self.interpret(s.body)
+                    should_break = False
+                    should_continue = False
+                    for statement in s.body:
+                       # print("Executing statement:", statement.__class__.__name__)
+                        if isinstance(statement, str):
+                            if statement == "break":
+                                print(f"Breaking at {i}")
+                                should_break = True
+                                break
+                            elif statement == "continue":
+                                print(f"Skipping {i}")
+                                should_continue = True
+                                break
+                        else:
+                            self.interpret([statement])
+
+                    if should_break:
+                        break  # Exit the outer loop if break is encountered
+                    if should_continue:
+                        continue  # Skip the rest of the current iteration and continue the loop
+
                 del self.state[s.var]  # Remove loop variable after the loop
+
 
             # While Loop
             elif s.__class__.__name__ == "WhileLoop":
                 while self.math_parser(str(s.condition)):
-                    self.interpret(s.body)
+                    should_break = False
+                    should_continue = False
+                    for statement in s.body:
+                       # print("Executing statement:", statement.__class__.__name__)
+                        if isinstance(statement, str):
+                            if statement == "break":
+                                print("Breaking out of loop")
+                                should_break = True
+                                break
+                            elif statement == "continue":
+                                print("Continuing the loop")
+                                should_continue = True
+                                break
+                        else:
+                            self.interpret([statement])
+                    
+                    if should_break:
+                        break  # Exit the while loop if break is encountered
+                    if should_continue:
+                        continue  # Skip the rest of the current iteration and continue the loop
 
-            # Break and Continue
-            if s.__class__.__name__ == "str":
-                if s == "break":
-                    print("Breaking out of loop")
-                    break
-                elif s == "continue":
-                    print("Continuing the loop")
-                    continue
 
 
 
