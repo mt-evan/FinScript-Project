@@ -1,8 +1,11 @@
-let y <- 2
-if (y > 3) {
-    print("y is greater than 3")
-} elif (y == 2) {
-    print("y is equal to 2") 
-} else {
-    print("y is less than 2")
+for (i <- 1 to 20) {
+    if (i % 3 == 0 && i % 5 == 0) {
+        print("FizzBuzz")
+    } elif (i % 3 == 0) {
+        print("Fizz")
+    } elif (i % 5 == 0) {
+        print("Buzz")
+    } else {
+        print(i)
+    }
 }

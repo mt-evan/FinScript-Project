@@ -37,7 +37,7 @@ class FinScriptInterpreter:
         for i, token in enumerate(tokens):
             if token in self.state:
                 tokens[i] = str(self.state[token])
-            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token):  # If it's a variable not in state
+            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:  # If it's a variable not in state and not a keyword like "and" or "or"
                 print(f"Error: Variable '{token}' not defined.")  # For debugging
 
         # Now reassemble the tokens and replace operators correctly
