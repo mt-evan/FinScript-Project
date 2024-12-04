@@ -1,0 +1,3 @@
+negative numbers is an error
+
+decimal numbers are an error

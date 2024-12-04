@@ -24,7 +24,7 @@ class FinScriptInterpreter:
         expr = expr.replace("true", "True").replace("false", "False")
 
         # Tokenize the expression first without replacing operators
-        tokens = re.findall(r'\d+|[a-zA-Z_][a-zA-Z0-9_]*|[+\-*/%()=<>&!|]|\b(?:==|!=|<=|>=)\b', expr)
+        tokens = re.findall(r'\d+\.\d+|\d+|[a-zA-Z_][a-zA0-9_]*|[+\-*/%()=<>&!|]|\b(?:==|!=|<=|>=)\b', expr)
 
         # Replace multi-character operators
         tokens = [token.replace("__EQUAL__", "==")
