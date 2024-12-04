@@ -5,7 +5,7 @@ Program:
 
 // The different types of statements
 Statement:
-    Output | Assignment | IfStatement | ForLoop | WhileLoop
+    Output | Assignment | IfStatement | ForLoop | WhileLoop | Break | Continue
 ;
 
 // If Statement (includes elif and else)
@@ -28,6 +28,14 @@ ForLoop:
 // While Loop (condition-based while loop)
 WhileLoop:
     'while' '(' condition=Expression ')' '{' body+=Statement* '}'
+;
+
+Break:
+    'break'
+;
+
+Continue:
+    'continue'
 ;
 
 // Output Statements
