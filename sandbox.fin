@@ -1,17 +1,4 @@
-// Declare initial values
-let income <- 5000 
-let rent <- 1500 
-let groceries <- 300 
 
-// Calculate savings
-let expenses <- rent + groceries
-let savings <- income - expenses
+let income <- 5000 USD
+print(income)
 
-// Conditional logic
-if (savings > 1000 ) {
-    print("You are saving well!")
-}
-
-// Output result
-print("Monthly savings:")
-print(savings)
