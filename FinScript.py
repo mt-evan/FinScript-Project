@@ -22,22 +22,19 @@ class FinScriptInterpreter:
 
         # Tokenize the expression
         tokens = re.findall(r'-?\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\*/%()=<>&!|]', expr)
-        # print(tokens)
-        # sys.exit(1)
-        # Replace tokens with their actual representations
+
         for i, token in enumerate(tokens):
             # If the token is a currency literal
             if re.match(r'^-?\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
-                # Extract amount and currency
                 match = re.match(r'^-?(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
                 amount, currency = match.groups()
-                amount = float(amount) if amount else 0  # Convert amount to float
-                if token.startswith('-'):  # Check if token starts with '-'
-                    amount = -amount  # Make amount negative
+                amount = float(amount) if amount else 0
+                if token.startswith('-'):
+                    amount = -amount
                 tokens[i] = f"Currency({amount}, '{currency}')"
             # If the token is a known variable in the state
             elif token in self.state:
-                tokens[i] = str(self.state[token])
+                tokens[i] = f"self.state['{token}']"
             # Handle undefined variables
             elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:
                 raise ValueError(f"Variable '{token}' not defined.")
@@ -45,11 +42,11 @@ class FinScriptInterpreter:
         # Reassemble the tokens into a single expression
         expr = " ".join(tokens)
 
-        # print(expr)
-        # sys.exit(1)
-
-        # Make the Currency class accessible in the eval context
-        context = {"Currency": Currency}
+        # Prepare the context for eval
+        context = {
+            "Currency": Currency,  # Make the Currency class accessible
+            "self": self  # Include self to access self.state
+        }
 
         try:
             result = eval(expr, {}, context)
@@ -57,9 +54,6 @@ class FinScriptInterpreter:
             raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
         return result
-
-
-
 
     def interpret(self, model):
         # Ensure the input is iterable
