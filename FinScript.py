@@ -14,17 +14,18 @@ class FinScriptInterpreter:
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
 
     def math_parser(self, expr):
-        # print(expr)
-        # sys.exit(0)
-
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
-        expr = re.sub(r'(?<!!=)!', ' not ', expr)  # Replace standalone '!' with ' not '
+        expr = re.sub(r'(?<!\!)\!', ' not ', expr)
         expr = expr.replace("true", "True").replace("false", "False")
 
-        # Update the regular expression to separate tokens correctly
-        tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=', expr)
+        print(expr)
+
+        # Update the regular expression to correctly identify tokens
+        tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
+
+        print(tokens)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
@@ -61,6 +62,7 @@ class FinScriptInterpreter:
             raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
         return result
+
 
     def interpret(self, model):
         # Ensure the input is iterable
