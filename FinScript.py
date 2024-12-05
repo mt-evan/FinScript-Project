@@ -29,6 +29,8 @@ class FinScriptInterpreter:
                 match = re.match(r'^-?(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
                 amount, currency = match.groups()
                 amount = float(amount) if amount else 0
+                # Only do this if there isn't another + or - in front, so 100USD - 100USD would not put in -100 in Currnency Object ]
+                # But 100USD + -100USD or just a lone -100USD would put in -100
                 if token.startswith('-'):
                     amount = -amount
                 tokens[i] = f"Currency({amount}, '{currency}')"
@@ -228,6 +230,9 @@ class Currency:
             return Currency(self.amount * other, self.currency)
         raise TypeError(f"Cannot multiply {type(other)} with Currency")
 
+    def __rmul__(self, other):
+        return self.__mul__(other)  # Reuse the __mul__ method for reversed multiplication
+
     def __truediv__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
@@ -238,6 +243,7 @@ class Currency:
 
     def __repr__(self):
         return str(self)
+
 
 
 
