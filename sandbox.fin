@@ -1,2 +1,4 @@
-let x <- -10USD * -2
-print(x)
+let x <- 100USD
+let y <- x + 100USD
+let z <- x + y
+print(z)

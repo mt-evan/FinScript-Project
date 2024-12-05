@@ -9,6 +9,10 @@ class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
 
+
+    # In state, store the value for currencies as Currency objects
+    # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
+
     def math_parser(self, expr):
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
