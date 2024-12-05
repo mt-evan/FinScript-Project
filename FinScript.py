@@ -17,10 +17,10 @@ class FinScriptInterpreter:
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
-        expr = re.sub(r'(?<!\!)\!', ' not', expr)
+        expr = re.sub(r'(?<!\!)\!', ' not ', expr)
         expr = expr.replace("true", "True").replace("false", "False")
         # change a 'not=' to !=
-        expr = expr.replace("not=", "!=")
+        expr = expr.replace("not =", "!=")
 
         # print(expr)
 

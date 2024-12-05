@@ -1,5 +1,7 @@
-let x <- 15
-if (x != 15) {
-    print("The currency amount is 15.")
+let a <- 5 != 5
+if (a) {
+    print(a)
+} else {
+    
+    print(a)
 }
-print(x)
