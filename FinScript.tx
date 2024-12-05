@@ -107,7 +107,11 @@ Product:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
+    BOOL | FLOAT | INT | MoneyValue | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
+;
+
+MoneyValue:
+    (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
 
 // Boolean values: true and false
