@@ -17,15 +17,17 @@ class FinScriptInterpreter:
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
-        expr = re.sub(r'(?<!\!)\!', ' not ', expr)
+        expr = re.sub(r'(?<!\!)\!', ' not', expr)
         expr = expr.replace("true", "True").replace("false", "False")
+        # change a 'not=' to !=
+        expr = expr.replace("not=", "!=")
 
-        print(expr)
+        # print(expr)
 
         # Update the regular expression to correctly identify tokens
         tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
-        print(tokens)
+        # print(tokens)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
