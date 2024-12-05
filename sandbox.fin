@@ -1,4 +1,7 @@
 
-let income <- 5000 USD
+let income <- 5000 USD / 2
 print(income)
 
+let salary <- 5000USD + 2000USD
+
+print(salary)

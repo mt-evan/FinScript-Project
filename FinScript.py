@@ -10,45 +10,45 @@ class FinScriptInterpreter:
         self.state = {}
 
     def math_parser(self, expr):
-        # Update the parser to accept currency expressions like 5000USD
-        # When a currency literal is found, convert it to a Currency object
-        # Example: 5000USD -> Currency(5000, "USD")
-        # Change the math expressions to use Currency objects:
-        # 1) You can do 5 + 5USD to get 10USD
-        # 2) You can do 5USD + 5 to get 10USD
-        # 3) You can do 5USD + 5USD to get 10USD
-        # 4) You can do multiplication, subtraction, division, and modulus
-        # 5) You can do comparison operators like ==, !=, <, >, <=, >=
-        print(expr)
-        sys.exit("Not implemented yet")
-
-
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
-        expr = re.sub(r'(?<!!=)!', ' not ', expr) # Replace standalone '!' with ' not '
+        expr = re.sub(r'(?<!!=)!', ' not ', expr)  # Replace standalone '!' with ' not '
         expr = expr.replace("true", "True").replace("false", "False")
 
-        # Tokenize the expression while keeping multi-character operators intact
-        tokens = re.findall(r'\d+\.\d+|\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
+        # Tokenize the expression
+        tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|\d+\.\d+|\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
 
-        # Replace variables with their values from the state
+        # Replace tokens with their actual representations
         for i, token in enumerate(tokens):
-            if token in self.state:
+            # If the token is a currency literal
+            if re.match(r'^\d+(\.\d+)?(USD|EUR|GBP|JPY)$', token):
+                # Extract amount and currency
+                match = re.match(r'^(\d+(\.\d+)?)(USD|EUR|GBP|JPY)$', token)
+                amount, _, currency = match.groups()
+                tokens[i] = f"Currency({amount}, '{currency}')"
+            # If the token is a known variable in the state
+            elif token in self.state:
                 tokens[i] = str(self.state[token])
-            elif re.match(r'[a-zA-Z_][a-zA0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:  # If it's a variable not in state and not a keyword like "and" or "or"
-                print(f"Error: Variable '{token}' not defined.")  # For debugging
+            # Handle undefined variables
+            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:
+                raise ValueError(f"Variable '{token}' not defined.")
 
-        # Now reassemble the tokens and replace operators correctly
+        # Reassemble the tokens into a single expression
         expr = " ".join(tokens)
 
+        # Make the Currency class accessible in the eval context
+        context = {"Currency": Currency}
+
         try:
-            result = eval(expr)
+            result = eval(expr, {}, context)
         except Exception as e:
-            print(f"Error evaluating expression '{expr}': {e}")
-            sys.exit(1)
+            raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
         return result
+
+
+
 
     def interpret(self, model):
         # Ensure the input is iterable
@@ -172,11 +172,48 @@ class FinScriptInterpreter:
         
         return None  # Indicates normal execution, no special control flow actions
 
-# Class for currency variables
 class Currency:
     def __init__(self, amount, currency):
         self.amount = amount
         self.currency = currency
+
+    def __add__(self, other):
+        if isinstance(other, Currency):
+            if self.currency != other.currency:
+                raise ValueError(f"Cannot add different currencies: {self.currency} and {other.currency}")
+            return Currency(self.amount + other.amount, self.currency)
+        return Currency(self.amount + other, self.currency)
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __sub__(self, other):
+        if isinstance(other, Currency):
+            if self.currency != other.currency:
+                raise ValueError(f"Cannot subtract different currencies: {self.currency} and {other.currency}")
+            return Currency(self.amount - other.amount, self.currency)
+        return Currency(self.amount - other, self.currency)
+
+    def __rsub__(self, other):
+        return Currency(other - self.amount, self.currency)
+
+    def __mul__(self, other):
+        return Currency(self.amount * other, self.currency)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __truediv__(self, other):
+        if isinstance(other, Currency):
+            raise ValueError("Cannot divide one currency by another")
+        return Currency(self.amount / other, self.currency)
+
+    def __eq__(self, other):
+        return isinstance(other, Currency) and self.amount == other.amount and self.currency == other.currency
+
+    def __repr__(self):
+        return f"{self.amount}{self.currency}"
+
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')
