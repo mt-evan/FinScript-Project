@@ -17,15 +17,19 @@ class FinScriptInterpreter:
         expr = expr.replace("true", "True").replace("false", "False")
 
         # Tokenize the expression
-        tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|\d+\.\d+|\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
-
+        tokens = re.findall(r'-?\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\*/%()=<>&!|]', expr)
+        # print(tokens)
+        # sys.exit(1)
         # Replace tokens with their actual representations
         for i, token in enumerate(tokens):
             # If the token is a currency literal
-            if re.match(r'^\d+(\.\d+)?(USD|EUR|GBP|JPY)$', token):
+            if re.match(r'^-?\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
                 # Extract amount and currency
-                match = re.match(r'^(\d+(\.\d+)?)(USD|EUR|GBP|JPY)$', token)
-                amount, _, currency = match.groups()
+                match = re.match(r'^-?(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
+                amount, currency = match.groups()
+                amount = float(amount) if amount else 0  # Convert amount to float
+                if token.startswith('-'):  # Check if token starts with '-'
+                    amount = -amount  # Make amount negative
                 tokens[i] = f"Currency({amount}, '{currency}')"
             # If the token is a known variable in the state
             elif token in self.state:
@@ -36,6 +40,9 @@ class FinScriptInterpreter:
 
         # Reassemble the tokens into a single expression
         expr = " ".join(tokens)
+
+        # print(expr)
+        # sys.exit(1)
 
         # Make the Currency class accessible in the eval context
         context = {"Currency": Currency}

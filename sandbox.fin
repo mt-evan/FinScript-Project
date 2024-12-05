@@ -1,7 +1,2 @@
-
-let income <- 5000 USD / 2
-print(income)
-
-let salary <- 5000USD + 2000USD
-
-print(salary)
+let x <- -10USD * -2
+print(x)
