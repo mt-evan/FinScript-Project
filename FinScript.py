@@ -218,7 +218,6 @@ class Currency:
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount + other, self.currency)
         if isinstance(other, Currency):  # If other is another Currency
-            # Convert both to the same currency
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount + other_converted.amount, self.currency)
         raise TypeError(f"Cannot add {type(other)} to Currency")
@@ -229,8 +228,7 @@ class Currency:
     def __sub__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount - other, self.currency)
-        if isinstance(other, Currency):  # If other is another Currency
-            # Convert both to the same currency
+        if isinstance(other, Currency):
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
@@ -251,6 +249,8 @@ class Currency:
     def __eq__(self, other):
         if isinstance(other, Currency):
             return self.to_base() == other.to_base()
+        elif isinstance(other, (int, float)):
+            return self.amount == other
         return False
 
     def __ne__(self, other):
@@ -259,31 +259,36 @@ class Currency:
     def __lt__(self, other):
         if isinstance(other, Currency):
             return self.to_base() < other.to_base()
+        elif isinstance(other, (int, float)):
+            return self.amount < other
         raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __le__(self, other):
         if isinstance(other, Currency):
             return self.to_base() <= other.to_base()
+        elif isinstance(other, (int, float)):
+            return self.amount <= other
         raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __gt__(self, other):
         if isinstance(other, Currency):
             return self.to_base() > other.to_base()
+        elif isinstance(other, (int, float)):
+            return self.amount > other
         raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __ge__(self, other):
         if isinstance(other, Currency):
             return self.to_base() >= other.to_base()
+        elif isinstance(other, (int, float)):
+            return self.amount >= other
         raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __str__(self):
-        return f"{self.amount:.2f}{self.currency}"
+        return f"{self.amount:.4f}{self.currency}"
 
     def __repr__(self):
         return str(self)
-
-
-
 
 
 # Test Program

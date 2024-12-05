@@ -1,7 +1,9 @@
-let a <- 5 != 5
-if (a) {
-    print(a)
+let a <- 15
+let b <- 20USD
+if (a > b) {
+    print("a is less than b in value")
 } else {
-    
-    print(a)
+    print("a is not less than b in value")
 }
+print(a)  // Should output 15
+print(b)  // Should output 20.00USD
