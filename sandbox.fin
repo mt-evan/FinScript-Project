@@ -1,2 +1,2 @@
-let x <- 50 - 50
+let x <- (50USD + 2) / 2
 print(x)

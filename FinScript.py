@@ -185,7 +185,7 @@ class FinScriptInterpreter:
         return None  # Indicates normal execution, no special control flow actions
 
 class Currency:
-    # Exchange rates relative to USD (can be updated dynamically)
+    # Exchange rates relative to USD
     exchange_rates = {
         'USD': 1.0,
         'EUR': 0.85,
@@ -237,7 +237,7 @@ class Currency:
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount * other, self.currency)
-        raise TypeError(f"Cannot multiply {type(other)} with Currency")
+        sys.exit("Cannot multiply Currency by Currency")
 
     def __rmul__(self, other):
         return self.__mul__(other)  # Reuse the __mul__ method for reversed multiplication
@@ -245,7 +245,7 @@ class Currency:
     def __truediv__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
-        raise TypeError(f"Cannot divide Currency by {type(other)}")
+        sys.exit("Cannot divide by Currency")
 
     def __str__(self):
         return f"{self.amount:.2f}{self.currency}"
