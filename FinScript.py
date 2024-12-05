@@ -42,7 +42,8 @@ class FinScriptInterpreter:
         statements = model if isinstance(model, list) else model.statements
 
         for s in statements:
-            
+            result = None  # Initialize the result to track control flow statements
+
             # Output
             if s.__class__.__name__ == "PrintString":
                 print(s.content)
@@ -73,17 +74,21 @@ class FinScriptInterpreter:
             elif s.__class__.__name__ == "IfStatement":
                 condition_result = self.math_parser(str(s.condition))
                 if condition_result:
-                    self.interpret(s.thenBody)
+                    result = self.interpret(s.thenBody)
                 else:
                     executed_elif = False
                     for elif_clause in s.elifClauses:
                         elif_condition_result = self.math_parser(str(elif_clause.condition))
                         if elif_condition_result:
-                            self.interpret(elif_clause.body)
+                            result = self.interpret(elif_clause.body)
                             executed_elif = True
                             break
                     if not executed_elif and s.elseBody:
-                        self.interpret(s.elseBody)
+                        result = self.interpret(s.elseBody)
+                        
+                # Handle results from nested statements
+                if result == "break" or result == "continue":
+                    return result
 
             # For Loop
             elif s.__class__.__name__ == "ForLoop":
@@ -97,19 +102,21 @@ class FinScriptInterpreter:
                     should_break = False
                     should_continue = False
                     for statement in s.body:
-                       # print("Executing statement:", statement.__class__.__name__)
                         if isinstance(statement, str):
                             if statement == "break":
-                                print(f"Breaking at {i}")
                                 should_break = True
                                 break
                             elif statement == "continue":
-                                print(f"Skipping {i}")
                                 should_continue = True
                                 break
-                        else:
-                            self.interpret([statement])
-
+                        result = self.interpret([statement])
+                        if result == "break":
+                            should_break = True
+                            break
+                        elif result == "continue":
+                            should_continue = True
+                            break
+                    
                     if should_break:
                         break  # Exit the outer loop if break is encountered
                     if should_continue:
@@ -117,33 +124,40 @@ class FinScriptInterpreter:
 
                 del self.state[s.var]  # Remove loop variable after the loop
 
-
             # While Loop
             elif s.__class__.__name__ == "WhileLoop":
                 while self.math_parser(str(s.condition)):
                     should_break = False
                     should_continue = False
                     for statement in s.body:
-                       # print("Executing statement:", statement.__class__.__name__)
                         if isinstance(statement, str):
                             if statement == "break":
-                                print("Breaking out of loop")
                                 should_break = True
                                 break
                             elif statement == "continue":
-                                print("Continuing the loop")
                                 should_continue = True
                                 break
-                        else:
-                            self.interpret([statement])
+                        result = self.interpret([statement])
+                        if result == "break":
+                            should_break = True
+                            break
+                        elif result == "continue":
+                            should_continue = True
+                            break
                     
                     if should_break:
                         break  # Exit the while loop if break is encountered
                     if should_continue:
                         continue  # Skip the rest of the current iteration and continue the loop
 
-
-
+            # Break and Continue
+            if isinstance(s, str):
+                if s == "break":
+                    return "break"
+                elif s == "continue":
+                    return "continue"
+        
+        return None  # Indicates normal execution, no special control flow actions
 
 
 # Test Program
