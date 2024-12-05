@@ -20,19 +20,21 @@ class FinScriptInterpreter:
         expr = re.sub(r'(?<!!=)!', ' not ', expr)  # Replace standalone '!' with ' not '
         expr = expr.replace("true", "True").replace("false", "False")
 
-        # Tokenize the expression
-        tokens = re.findall(r'-?\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
+        # Update the regular expression to separate tokens correctly
+        tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=', expr)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
-            if re.match(r'^-?\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
-                match = re.match(r'^-?(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
+            if re.match(r'^\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
+                match = re.match(r'^(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
                 amount, currency = match.groups()
-                amount = float(amount) if amount else 0
-                # Only do this if there isn't another + or - in front, so 100USD - 100USD would not put in -100 in Currnency Object ]
-                # But 100USD + -100USD or just a lone -100USD would put in -100
-                if token.startswith('-'):
-                    amount = -amount
+                amount = float(amount)
+                tokens[i] = f"Currency({amount}, '{currency}')"
+            # If the token is a negative currency literal
+            elif re.match(r'^-\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
+                match = re.match(r'^-(\d+(?:\.\d+)?)(USD|EUR|GBP|JPY)$', token)
+                amount, currency = match.groups()
+                amount = -float(amount)
                 tokens[i] = f"Currency({amount}, '{currency}')"
             # If the token is a known variable in the state
             elif token in self.state:
@@ -56,8 +58,6 @@ class FinScriptInterpreter:
             raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
         return result
-
-
 
     def interpret(self, model):
         # Ensure the input is iterable
