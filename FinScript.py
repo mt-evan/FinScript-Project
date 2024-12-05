@@ -14,6 +14,9 @@ class FinScriptInterpreter:
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
 
     def math_parser(self, expr):
+        # print(expr)
+        # sys.exit(0)
+
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
@@ -215,6 +218,9 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount + other_converted.amount, self.currency)
         raise TypeError(f"Cannot add {type(other)} to Currency")
+    
+    def __radd__(self, other): 
+        return self.__add__(other) # Reuse the __add__ method for reversed addition
 
     def __sub__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
@@ -224,6 +230,9 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
+    
+    def __rsub__(self, other): 
+        return self.__sub__(other) # Reuse the __sub__ method for reversed subtraction
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number

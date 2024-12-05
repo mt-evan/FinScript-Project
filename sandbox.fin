@@ -1,2 +1,2 @@
-let x <- 100USD - 100USD
+let x <- 50 - 50
 print(x)
