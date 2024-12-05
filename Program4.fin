@@ -1,0 +1,6 @@
+function loanPayment(principal, rate, years) {
+    return principal * (rate / 12) / (1 - (1 + rate / 12) ^ (-12 * years));
+}
+let payment = loanPayment(250000 $USD, @3.5%, 30 years);
+print("Monthly Payment:");
+print(payment)

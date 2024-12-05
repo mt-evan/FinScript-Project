@@ -1,0 +1,10 @@
+let income = 4000 $USD per month;
+let expenses = {
+ rent: 1200 $USD,
+ groceries: 300 $USD,
+ utilities: 150 $USD,
+ entertainment: 200 $USD
+};
+let savings = income - sum(expenses);
+print("Monthly Savings:");
+print(savings)

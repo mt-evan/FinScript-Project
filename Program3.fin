@@ -1,0 +1,6 @@
+let principal = 10000 $USD;
+let rate = @7%; // Annual interest rate
+let years = 10;
+let futureValue = compound(principal, rate, years);
+print("Future Value after 10 years: ");
+print(futureValue)
