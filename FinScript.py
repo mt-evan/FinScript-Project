@@ -185,10 +185,10 @@ class FinScriptInterpreter:
         return None  # Indicates normal execution, no special control flow actions
 
 class Currency:
-    # Exchange rates relative to USD
+    # Exchange rates relative to USD (can be updated dynamically)
     exchange_rates = {
         'USD': 1.0,
-        'EUR': 0.950837,
+        'EUR': 0.85,
         'GBP': 0.75,
         'JPY': 110.0
     }
@@ -218,9 +218,9 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount + other_converted.amount, self.currency)
         raise TypeError(f"Cannot add {type(other)} to Currency")
-    
-    def __radd__(self, other): 
-        return self.__add__(other) # Reuse the __add__ method for reversed addition
+
+    def __radd__(self, other):
+        return self.__add__(other)  # Reuse the __add__ method for reversed addition
 
     def __sub__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
@@ -230,14 +230,11 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
-    
-    def __rsub__(self, other): 
-        return self.__sub__(other) # Reuse the __sub__ method for reversed subtraction
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount * other, self.currency)
-        sys.exit("Cannot multiply Currency by Currency")
+        raise TypeError(f"Cannot multiply {type(other)} with Currency")
 
     def __rmul__(self, other):
         return self.__mul__(other)  # Reuse the __mul__ method for reversed multiplication
@@ -245,13 +242,42 @@ class Currency:
     def __truediv__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
-        sys.exit("Cannot divide by Currency")
+        raise TypeError(f"Cannot divide Currency by {type(other)}")
+
+    def __eq__(self, other):
+        if isinstance(other, Currency):
+            return self.to_base() == other.to_base()
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __lt__(self, other):
+        if isinstance(other, Currency):
+            return self.to_base() < other.to_base()
+        raise TypeError(f"Cannot compare {type(other)} with Currency")
+
+    def __le__(self, other):
+        if isinstance(other, Currency):
+            return self.to_base() <= other.to_base()
+        raise TypeError(f"Cannot compare {type(other)} with Currency")
+
+    def __gt__(self, other):
+        if isinstance(other, Currency):
+            return self.to_base() > other.to_base()
+        raise TypeError(f"Cannot compare {type(other)} with Currency")
+
+    def __ge__(self, other):
+        if isinstance(other, Currency):
+            return self.to_base() >= other.to_base()
+        raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __str__(self):
-        return f"{self.amount:.4f}{self.currency}"
+        return f"{self.amount:.2f}{self.currency}"
 
     def __repr__(self):
         return str(self)
+
 
 
 

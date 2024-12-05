@@ -1,13 +1,5 @@
-let x <- 10USD + 5
-let y <- 20USD
-if (x < y) {
-    print("x is less than y")
-} else {
-    print("x is not less than y")
+let x <- 15
+if (x == 15) {
+    print("The currency amount is 15.")
 }
 print(x)
-print(y)
-// Should print:
-// x is less than y
-// 15.00USD
-// 20.00USD
