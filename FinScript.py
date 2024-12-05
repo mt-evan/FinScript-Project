@@ -10,6 +10,19 @@ class FinScriptInterpreter:
         self.state = {}
 
     def math_parser(self, expr):
+        # Update the parser to accept currency expressions like 5000USD
+        # When a currency literal is found, convert it to a Currency object
+        # Example: 5000USD -> Currency(5000, "USD")
+        # Change the math expressions to use Currency objects:
+        # 1) You can do 5 + 5USD to get 10USD
+        # 2) You can do 5USD + 5 to get 10USD
+        # 3) You can do 5USD + 5USD to get 10USD
+        # 4) You can do multiplication, subtraction, division, and modulus
+        # 5) You can do comparison operators like ==, !=, <, >, <=, >=
+        print(expr)
+        sys.exit("Not implemented yet")
+
+
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
@@ -159,6 +172,11 @@ class FinScriptInterpreter:
         
         return None  # Indicates normal execution, no special control flow actions
 
+# Class for currency variables
+class Currency:
+    def __init__(self, amount, currency):
+        self.amount = amount
+        self.currency = currency
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')

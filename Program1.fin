@@ -1,11 +1,11 @@
 // Declare initial values
-let income = 5000 USD
-let rent = 1500 USD
-let groceries = 300 USD
+let income <- 5000 USD
+let rent <- 1500 USD
+let groceries <- 300 USD
 
 // Calculate savings
-let expenses = rent + groceries
-let savings = income - expenses
+let expenses <- rent + groceries
+let savings <- income - expenses
 
 // Conditional logic
 if (savings > 1000 USD) {
