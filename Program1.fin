@@ -4,13 +4,14 @@ let rent = 1500 USD
 let groceries = 300 USD
 
 // Calculate savings
-calculate expenses = rent + groceries
-calculate savings = income - expenses
+let expenses = rent + groceries
+let savings = income - expenses
 
 // Conditional logic
-if savings > 1000 USD then
+if (savings > 1000 USD) {
     print("You are saving well!")
-endif
+}
 
 // Output result
-print("Monthly savings: " + savings)
+print("Monthly savings:")
+print(savings)
