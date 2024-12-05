@@ -214,7 +214,6 @@ class Currency:
             return Currency(self.amount + other_converted.amount, self.currency)
         raise TypeError(f"Cannot add {type(other)} to Currency")
 
-
     def __sub__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount - other, self.currency)
@@ -224,12 +223,22 @@ class Currency:
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
 
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):  # If other is a number
+            return Currency(self.amount * other, self.currency)
+        raise TypeError(f"Cannot multiply {type(other)} with Currency")
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):  # If other is a number
+            return Currency(self.amount / other, self.currency)
+        raise TypeError(f"Cannot divide Currency by {type(other)}")
 
     def __str__(self):
         return f"{self.amount:.2f}{self.currency}"
 
     def __repr__(self):
         return str(self)
+
 
 
 # Test Program
