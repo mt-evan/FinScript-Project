@@ -178,46 +178,50 @@ class FinScriptInterpreter:
         return None  # Indicates normal execution, no special control flow actions
 
 class Currency:
+    # Exchange rates relative to USD (can be updated dynamically)
+    exchange_rates = {
+        'USD': 1.0,
+        'EUR': 0.85,
+        'GBP': 0.75,
+        'JPY': 110.0
+    }
+
     def __init__(self, amount, currency):
+        if currency not in self.exchange_rates:
+            raise ValueError(f"Unsupported currency: {currency}")
         self.amount = amount
         self.currency = currency
 
-    def __add__(self, other):
-        if isinstance(other, Currency):
-            if self.currency != other.currency:
-                raise ValueError(f"Cannot add different currencies: {self.currency} and {other.currency}")
-            return Currency(self.amount + other.amount, self.currency)
-        return Currency(self.amount + other, self.currency)
+    def to_base(self):
+        """Convert to base currency (USD)."""
+        return self.amount / self.exchange_rates[self.currency]
 
-    def __radd__(self, other):
-        return self.__add__(other)
+    def convert_to(self, target_currency):
+        """Convert this currency to another."""
+        if target_currency not in self.exchange_rates:
+            raise ValueError(f"Unsupported currency: {target_currency}")
+        base_amount = self.to_base()
+        return Currency(base_amount * self.exchange_rates[target_currency], target_currency)
+
+    def __add__(self, other):
+        if not isinstance(other, Currency):
+            raise TypeError(f"Cannot add {type(other)} to Currency")
+        # Convert both to the same currency
+        other_converted = other.convert_to(self.currency)
+        return Currency(self.amount + other_converted.amount, self.currency)
 
     def __sub__(self, other):
-        if isinstance(other, Currency):
-            if self.currency != other.currency:
-                raise ValueError(f"Cannot subtract different currencies: {self.currency} and {other.currency}")
-            return Currency(self.amount - other.amount, self.currency)
-        return Currency(self.amount - other, self.currency)
+        if not isinstance(other, Currency):
+            raise TypeError(f"Cannot subtract {type(other)} from Currency")
+        # Convert both to the same currency
+        other_converted = other.convert_to(self.currency)
+        return Currency(self.amount - other_converted.amount, self.currency)
 
-    def __rsub__(self, other):
-        return Currency(other - self.amount, self.currency)
-
-    def __mul__(self, other):
-        return Currency(self.amount * other, self.currency)
-
-    def __rmul__(self, other):
-        return self.__mul__(other)
-
-    def __truediv__(self, other):
-        if isinstance(other, Currency):
-            raise ValueError("Cannot divide one currency by another")
-        return Currency(self.amount / other, self.currency)
-
-    def __eq__(self, other):
-        return isinstance(other, Currency) and self.amount == other.amount and self.currency == other.currency
+    def __str__(self):
+        return f"{self.amount:.2f}{self.currency}"
 
     def __repr__(self):
-        return f"{self.amount}{self.currency}"
+        return str(self)
 
 
 # Test Program
