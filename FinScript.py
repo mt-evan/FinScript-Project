@@ -21,7 +21,7 @@ class FinScriptInterpreter:
         expr = expr.replace("true", "True").replace("false", "False")
 
         # Tokenize the expression
-        tokens = re.findall(r'-?\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\*/%()=<>&!|]', expr)
+        tokens = re.findall(r'-?\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*|==|!=|<=|>=|[+\-*/%()=<>&!|]', expr)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
@@ -39,7 +39,7 @@ class FinScriptInterpreter:
             elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*', token) and token not in ['and', 'or', 'not', 'True', 'False']:
                 raise ValueError(f"Variable '{token}' not defined.")
 
-        # Reassemble the tokens into a single expression
+        # Reassemble the tokens into a single expression with spaces
         expr = " ".join(tokens)
 
         # Prepare the context for eval
@@ -54,6 +54,8 @@ class FinScriptInterpreter:
             raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
         return result
+
+
 
     def interpret(self, model):
         # Ensure the input is iterable
@@ -204,18 +206,24 @@ class Currency:
         return Currency(base_amount * self.exchange_rates[target_currency], target_currency)
 
     def __add__(self, other):
-        if not isinstance(other, Currency):
-            raise TypeError(f"Cannot add {type(other)} to Currency")
-        # Convert both to the same currency
-        other_converted = other.convert_to(self.currency)
-        return Currency(self.amount + other_converted.amount, self.currency)
+        if isinstance(other, (int, float)):  # If other is a number
+            return Currency(self.amount + other, self.currency)
+        if isinstance(other, Currency):  # If other is another Currency
+            # Convert both to the same currency
+            other_converted = other.convert_to(self.currency)
+            return Currency(self.amount + other_converted.amount, self.currency)
+        raise TypeError(f"Cannot add {type(other)} to Currency")
+
 
     def __sub__(self, other):
-        if not isinstance(other, Currency):
-            raise TypeError(f"Cannot subtract {type(other)} from Currency")
-        # Convert both to the same currency
-        other_converted = other.convert_to(self.currency)
-        return Currency(self.amount - other_converted.amount, self.currency)
+        if isinstance(other, (int, float)):  # If other is a number
+            return Currency(self.amount - other, self.currency)
+        if isinstance(other, Currency):  # If other is another Currency
+            # Convert both to the same currency
+            other_converted = other.convert_to(self.currency)
+            return Currency(self.amount - other_converted.amount, self.currency)
+        raise TypeError(f"Cannot subtract {type(other)} from Currency")
+
 
     def __str__(self):
         return f"{self.amount:.2f}{self.currency}"

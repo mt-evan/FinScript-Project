@@ -1,4 +1,4 @@
 let x <- 100USD
-let y <- x + 100USD
+let y <- x - 100USD
 let z <- x + y
 print(z)
