@@ -17,3 +17,7 @@ print(result3)  // Expect false
 
 That is an error because is_true contains "true"
 and same with is_false
+
+
+
+#####################

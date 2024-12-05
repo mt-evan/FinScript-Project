@@ -1,0 +1,6 @@
+let usd_amount <- 100USD
+let eur_amount <- usd_amount.convert_to("EUR")
+let total <- usd_amount + eur_amount
+print(usd_amount)  // Should print: 100.00USD
+print(eur_amount)  // Should print the equivalent amount in EUR
+print(total)  // Should handle addition and print the result in USD

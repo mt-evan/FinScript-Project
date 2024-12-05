@@ -188,7 +188,7 @@ class Currency:
     # Exchange rates relative to USD
     exchange_rates = {
         'USD': 1.0,
-        'EUR': 0.85,
+        'EUR': 0.950837,
         'GBP': 0.75,
         'JPY': 110.0
     }
@@ -248,7 +248,7 @@ class Currency:
         sys.exit("Cannot divide by Currency")
 
     def __str__(self):
-        return f"{self.amount:.2f}{self.currency}"
+        return f"{self.amount:.4f}{self.currency}"
 
     def __repr__(self):
         return str(self)
