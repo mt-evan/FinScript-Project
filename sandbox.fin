@@ -1,9 +1,2 @@
-let a <- 20
-let b <- 20USD
-if (a > b) {
-    print("a is less than b in value")
-} else {
-    print("a is not less than b in value")
-}
-print(a)  // Should output 15
-print(b)  // Should output 20.00USD
+let invalid_op <- 30 * (5USD - 3)
+print(invalid_op) 

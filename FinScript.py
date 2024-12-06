@@ -236,7 +236,9 @@ class Currency:
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount * other, self.currency)
-        raise TypeError(f"Cannot multiply {type(other)} with Currency")
+        # raise TypeError(f"Cannot multiply {type(other)} with Currency")
+        print(f"Cannot multiply Currency with Currency")
+        sys.exit(1)
 
     def __rmul__(self, other):
         return self.__mul__(other)  # Reuse the __mul__ method for reversed multiplication
@@ -244,7 +246,11 @@ class Currency:
     def __truediv__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
-        raise TypeError(f"Cannot divide Currency by {type(other)}")
+        raise TypeError(f"Cannot divide something by {type(other)}")
+    
+    def __rtruediv__(self, other):
+        print("Cannot divide something by Currency")
+        sys.exit(1)
 
     def __eq__(self, other):
         if isinstance(other, Currency):
