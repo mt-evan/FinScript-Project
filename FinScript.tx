@@ -118,10 +118,10 @@ MoneyValue:
 BOOL: 'true' | 'false';
 
 // Integer values: Integer literals
-INT: /[0-9]+/;
+INT: /[0-9,]+/;
 
 FLOAT:
-    /[0-9]*\.[0-9]+/
+    /[0-9,]*\.[0-9,]+/
 ;
 
 // Identifier: Variable names (alphanumeric with optional underscores)

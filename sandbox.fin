@@ -1,4 +1,3 @@
-//let CR7_price_tag <- 100,000,000 EUR
-//let juventus_budget <- 200,000,000 EUR
-let x <- 5
-print(x)
+let CR7_price_tag <- 100000000 EUR
+let juventus_budget <- 200000000 EUR
+print(juventus_budget)

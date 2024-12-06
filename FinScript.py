@@ -5,6 +5,16 @@ import sys
 # Load the meta-model
 finscript_mm = metamodel_from_file('FinScript.tx')
 
+# Preprocess the file to handle commas
+# May need to update if I implement methods
+# because commas are used to separate arguments
+def preprocess_file(file_path):
+    with open(file_path, 'r') as file:
+        content = file.read()
+    content = re.sub(r'(?<=\d),(?=\d)', '', content)  # Remove commas surrounded by numbers
+    with open(file_path, 'w') as file:
+        file.write(content)
+
 class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
@@ -12,6 +22,10 @@ class FinScriptInterpreter:
     # In state, store the value for currencies as Currency objects
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
+
+        # Remove commas
+        expr = expr.replace(",", "")
+
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
@@ -303,6 +317,11 @@ class Currency:
 
 
 # Test Program
-finscript_model = finscript_mm.model_from_file('sandbox.fin')
+file_path = "sandbox.fin"
+preprocess_file(file_path)
+finscript_model = finscript_mm.model_from_file(file_path)
 interpreter = FinScriptInterpreter()
 interpreter.interpret(finscript_model)
+
+
+
