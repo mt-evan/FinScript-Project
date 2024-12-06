@@ -225,6 +225,9 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
+    
+    def __rsub__(self, other):
+        return self.__sub__(other)  # Reuse the __sub__ method for reversed subtraction
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number

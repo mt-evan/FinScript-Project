@@ -1,5 +1,5 @@
 // Declare initial values
-let income <- 5000 USD
+let income <- 0
 let incomeAfterTax <- income - (income * 0.15)
 let rent <- 1500 USD
 let groceries <- 300 USD
