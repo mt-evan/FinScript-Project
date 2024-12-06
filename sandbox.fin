@@ -1,5 +1,28 @@
-let CR7_price_tag <- 100,000,000 EUR
-let juventus_budget <- 200,000,000 EUR
-let transfer_offer <- 80,000,000 EUR
-print("The transfer offer for Ronaldo is")
-print(transfer_offer)
+let income <- 2,500 USD
+let incomeAfterTax <- income - (income * 0.15)
+print("Income after tax is")
+print(incomeAfterTax)
+let rent <- 1,500 USD
+let groceries <- 300 USD
+
+// Calculate savings
+let expenses <- -(rent + groceries)
+print("Expenses is:")
+print(expenses)
+let savings <- incomeAfterTax + expenses
+
+print("Savings is:")
+print(savings)
+
+// Conditional logic
+if (savings > 1,000 USD) {
+    print("You are saving well!")
+} elif (savings > 0 USD) {
+    print("You are living paycheck to paycheck!")
+} else {
+    print("You are spending more than you have!")
+}
+
+// Output result
+print("Monthly savings:")
+print(savings)
