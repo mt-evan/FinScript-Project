@@ -1,6 +1,9 @@
+import os
 from textx import metamodel_from_file
 import re
 import sys
+import tempfile
+import shutil
 
 # Load the meta-model
 finscript_mm = metamodel_from_file('FinScript.tx')
@@ -8,12 +11,23 @@ finscript_mm = metamodel_from_file('FinScript.tx')
 # Preprocess the file to handle commas
 # May need to update if I implement methods
 # because commas are used to separate arguments
-def preprocess_file(file_path):
-    with open(file_path, 'r') as file:
+# Takes in the source code as first parameter and the FinScript.fin file as the second
+# Copy the source code to the FinScript.fin file
+# Then preprocess the FinScript.fin file for the commas
+def preprocess_file(file_path, output_file):
+    # Read the content from the input file (file_path)
+    with open(file_path, 'r') as f:
+        source_code = f.read()
+
+    # Write the content to the output file (output_file)
+    with open(output_file, 'w') as f:
+        f.write(source_code)
+
+    with open(output_file, 'r') as file:
         content = file.read()
     content = re.sub(r'(?<=\d),(?=\d)', '', content)  # Remove commas surrounded by numbers
-    with open(file_path, 'w') as file:
-        file.write(content)
+    with open(output_file, 'w') as file:
+        file.write(content)  
 
 class FinScriptInterpreter:
     def __init__(self):
@@ -318,10 +332,15 @@ class Currency:
 
 
 # Test Program
-#file_path = "sandbox.fin"
-file_path = "Program1.fin"
-preprocess_file(file_path)
-finscript_model = finscript_mm.model_from_file(file_path)
+file_path = "sandbox.fin"
+# file_path = "Program1.fin"
+
+# Create a FinScript.fin file if there is not already one in the directory
+if not os.path.exists("FinScript.fin"):
+    open(file_path, 'w').close()
+Fin_Script_fin = "FinScript.fin"
+preprocess_file(file_path, Fin_Script_fin)
+finscript_model = finscript_mm.model_from_file(Fin_Script_fin)
 interpreter = FinScriptInterpreter()
 interpreter.interpret(finscript_model)
 

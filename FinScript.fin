@@ -1,0 +1,5 @@
+let CR7_price_tag <- 100000000 EUR
+let juventus_budget <- 200000000 EUR
+let transfer_offer <- 80000000 EUR
+print("The transfer offer for Ronaldo is")
+print(transfer_offer)
