@@ -1,6 +1,4 @@
-#print(eval('5 + True'))
+cr7Price = 100,000,000
 
-x = 5
-idk = False
-var = x + idk
-print(var)
+juventusBudget = 200,000,000
+print(juventusBudget)
