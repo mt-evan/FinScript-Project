@@ -23,6 +23,8 @@ class FinScriptInterpreter:
         # Update the regular expression to correctly identify tokens
         tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
+        # print(tokens)
+
         for i, token in enumerate(tokens):
             # If the token is a currency literal
             if re.match(r'^\d+(?:\.\d+)?(USD|EUR|GBP|JPY)$', token):
@@ -46,6 +48,8 @@ class FinScriptInterpreter:
         # Reassemble the tokens into a single expression with spaces
         expr = " ".join(tokens)
 
+        # print(expr)
+
         # Prepare the context for eval
         context = {
             "Currency": Currency,  # Make the Currency class accessible
@@ -57,6 +61,7 @@ class FinScriptInterpreter:
         except Exception as e:
             raise ValueError(f"Error evaluating expression '{expr}': {e}")
 
+        # print(f"Result: {result}")
         return result
 
     def interpret(self, model):
@@ -225,16 +230,16 @@ class Currency:
             other_converted = other.convert_to(self.currency)
             return Currency(self.amount - other_converted.amount, self.currency)
         raise TypeError(f"Cannot subtract {type(other)} from Currency")
-    
+
     def __rsub__(self, other):
-        return self.__sub__(other)  # Reuse the __sub__ method for reversed subtraction
+        if isinstance(other, (int, float)):
+            return Currency(other - self.amount, self.currency)
+        raise TypeError(f"Cannot subtract Currency from {type(other)}")
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount * other, self.currency)
-        # raise TypeError(f"Cannot multiply {type(other)} with Currency")
-        print(f"Cannot multiply Currency with Currency")
-        sys.exit(1)
+        raise TypeError(f"Cannot multiply {type(other)} with Currency")
 
     def __rmul__(self, other):
         return self.__mul__(other)  # Reuse the __mul__ method for reversed multiplication
@@ -243,10 +248,13 @@ class Currency:
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
         raise TypeError(f"Cannot divide something by {type(other)}")
-    
+
     def __rtruediv__(self, other):
-        print("Cannot divide something by Currency")
-        sys.exit(1)
+        raise TypeError("Cannot divide something by Currency")
+
+    def __neg__(self):
+        """Unary negation."""
+        return Currency(-self.amount, self.currency)
 
     def __eq__(self, other):
         if isinstance(other, Currency):
@@ -291,6 +299,8 @@ class Currency:
 
     def __repr__(self):
         return str(self)
+
+
 
 # Test Program
 finscript_model = finscript_mm.model_from_file('sandbox.fin')

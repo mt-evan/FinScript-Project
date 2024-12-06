@@ -86,7 +86,7 @@ BooleanTerm:
 // Boolean factor: Includes negation and comparisons
 BooleanFactor:
     ('!' BooleanFactor)               // NOT has higher precedence, applied to BooleanFactor
-    | Comparison
+    | '-'? Comparison
     | '(' Expression ')'
 ;
 
@@ -107,11 +107,11 @@ Product:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | '-'? MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
+    BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
 ;
 
 MoneyValue:
-    (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
+    '-'? (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
 
 // Boolean values: true and false
