@@ -309,7 +309,8 @@ class Currency:
         raise TypeError(f"Cannot compare {type(other)} with Currency")
 
     def __str__(self):
-        return f"{self.amount:.4f}{self.currency}"
+        return f"{self.amount:,.4f}{self.currency}"
+
 
     def __repr__(self):
         return str(self)
@@ -317,7 +318,8 @@ class Currency:
 
 
 # Test Program
-file_path = "sandbox.fin"
+#file_path = "sandbox.fin"
+file_path = "Program1.fin"
 preprocess_file(file_path)
 finscript_model = finscript_mm.model_from_file(file_path)
 interpreter = FinScriptInterpreter()
