@@ -4,8 +4,6 @@ let transfer_offer <- 80000000 EUR
 print("The transfer offer for the player is: ")
 println(transfer_offer)
 
-
-
 while (true) {
 
     if (transfer_offer < player_price_tag) {
