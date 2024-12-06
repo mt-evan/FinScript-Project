@@ -1,6 +1,6 @@
-let principal = 10000 USD
-let rate = 0.07 // Annual interest rate
-let years = 10
-let futureValue = compoundYearly(principal, rate, years) //  Use the formula Future Value = Principal * (1+rate)^years
+let principal <- 10000 USD
+let rate <- 0.07 // Annual interest rate
+let years <- 10
+let futureValue <- compoundYearly(principal, rate, years) //  Use the formula Future Value = Principal * (1+rate)^years
 print("Future Value after 10 years: ")
 println(futureValue) // with the currenct values, this should be 19671.51 USD

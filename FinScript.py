@@ -2,6 +2,7 @@ import os
 from textx import metamodel_from_file
 import re
 import sys
+from math import pow
 
 # Load the meta-model
 finscript_mm = metamodel_from_file('FinScript.tx')
@@ -35,9 +36,6 @@ class FinScriptInterpreter:
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
 
-        # Remove commas
-        expr = expr.replace(",", "")
-
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
         expr = expr.replace("&&", " and ")
@@ -49,7 +47,7 @@ class FinScriptInterpreter:
         # Update the regular expression to correctly identify tokens
         tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
-        # print(tokens)
+        print(tokens)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
@@ -64,6 +62,11 @@ class FinScriptInterpreter:
                 amount, currency = match.groups()
                 amount = -float(amount)
                 tokens[i] = f"Currency({amount}, '{currency}')"
+
+            # If the token is a function call
+            elif re.match(r'[a-zA-Z_][a-zA-Z0-9_]*\(', token):
+                func_name = token.split('(')[0]
+                tokens[i] = f"self.{func_name}"
             # If the token is a known variable in the state
             elif token in self.state:
                 tokens[i] = f"self.state['{token}']"
@@ -79,7 +82,8 @@ class FinScriptInterpreter:
         # Prepare the context for eval
         context = {
             "Currency": Currency,  # Make the Currency class accessible
-            "self": self  # Include self to access self.state
+            "self": self,  # Include self to access self.state
+            "pow": pow # Include pow for exponentiation
         }
 
         try:
@@ -89,6 +93,13 @@ class FinScriptInterpreter:
 
         # print(f"Result: {result}")
         return result
+    
+    def compoundYearly(self, principal, rate, years):
+        if isinstance(principal, Currency):
+            future_value = principal.amount * pow(1 + rate, years)
+            return Currency(future_value, principal.currency)
+        else:
+            raise TypeError("Principal must be a Currency object")
 
     def interpret(self, model):
         # Ensure the input is iterable
@@ -349,6 +360,3 @@ preprocess_file(file_path, Fin_Script_fin)
 finscript_model = finscript_mm.model_from_file(Fin_Script_fin)
 interpreter = FinScriptInterpreter()
 interpreter.interpret(finscript_model)
-
-
-

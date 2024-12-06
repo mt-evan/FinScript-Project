@@ -115,21 +115,25 @@ Product:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
+    FunctionCall | BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
 ;
 
 MoneyValue:
     '-'? (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
 
+FunctionCall:
+    funcName=ID '(' (args+=Expression (',' args+=Expression)*)? ')'
+;
+
 // Boolean values: true and false
 BOOL: 'true' | 'false';
 
 // Integer values: Integer literals
-INT: /[0-9,]+/;
+INT: /[0-9]+/;
 
 FLOAT:
-    /[0-9,]*\.[0-9,]+/
+    /[0-9]*\.[0-9,]+/
 ;
 
 // Identifier: Variable names (alphanumeric with optional underscores)
