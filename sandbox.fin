@@ -1,4 +1,4 @@
-let income <- 2500
+let income <- 2500 USD
 let incomeAfterTax <- income - (income * 0.15)
 print("Income after tax is")
 print(incomeAfterTax)
