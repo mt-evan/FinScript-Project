@@ -51,10 +51,10 @@ class FinScriptInterpreter:
         # change a 'not=' to !=
         expr = expr.replace("not =", "!=")
 
-        # Update the regular expression to correctly identify tokens
+        # Update the regular expression to keep a function call as one token
         tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
-        # print(tokens)
+        print(tokens)
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
