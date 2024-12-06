@@ -36,7 +36,12 @@ class FinScriptInterpreter:
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
 
-        print(expr) # MISTAKE IS HERE, EXPR IS <textx:FinScript.FunctionCall instance at 0x1e23e736ed0>
+        print(f"Expr is {expr}") # MISTAKE IS HERE, EXPR IS <textx:FinScript.FunctionCall instance at 0x1e23e736ed0>
+
+        # Check if expr is a function call
+        if expr.__class__.__name__ == "FunctionCall":
+            print(f"Expr is {expr}")
+            return self.math_parser(expr.expr)
 
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
@@ -133,6 +138,14 @@ class FinScriptInterpreter:
                 if s.var in self.state:
                     print(f"Variable '{s.var}' already declared")
                     sys.exit(1)
+
+                # print(str(s.expr) + ".............")
+
+                if s.expr.__class__.__name__ == "FunctionCall":
+                    newString = str(s.expr.funcName) + '(' + str(s.expr.args) + ')'
+                    newString = newString.replace("'", "").replace("[", "").replace("]", "")
+                    s.expr = newString
+
                 value_to_store = self.math_parser(str(s.expr))
                 self.state[s.var] = value_to_store
 
