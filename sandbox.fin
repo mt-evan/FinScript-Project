@@ -1,2 +1,18 @@
-let invalid_op <- 30 * (5USD - 3)
-print(invalid_op) 
+// Declare initial values
+let income <- 5000 USD
+let incomeAfterTax <- income - (income * 0.15)
+let rent <- 1500 USD
+let groceries <- 300 USD
+
+// Calculate savings
+let expenses <- rent + groceries
+let savings <- incomeAfterTax - expenses
+
+// Conditional logic
+if (savings > 1000 USD) {
+    print("You are saving well!")
+}
+
+// Output result
+print("Monthly savings:")
+print(savings)
