@@ -1,5 +1,21 @@
-let CR7_price_tag <- 100,000,000 EUR
-let juventus_budget <- 200,000,000 EUR
+let player_price_tag <- 100,000,000 EUR
+let team_budget <- 200,000,000 EUR
 let transfer_offer <- 80,000,000 EUR
-print("The transfer offer for Ronaldo is")
-print(transfer_offer)
+print("The transfer offer for the player is: ")
+println(transfer_offer)
+
+while (true) {
+
+    if (transfer_offer < player_price_tag) {
+        print("Offer of: ")
+        print(transfer_offer)
+        println(" has been rejected.")
+        transfer_offer <- transfer_offer + 5,000,000EUR
+        println("We must up the offer.")
+    } else {
+        print("Offer of: ")
+        print(transfer_offer)
+        println(" has been accepted.")
+        break
+    }
+}

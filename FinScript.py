@@ -2,8 +2,6 @@ import os
 from textx import metamodel_from_file
 import re
 import sys
-import tempfile
-import shutil
 
 # Load the meta-model
 finscript_mm = metamodel_from_file('FinScript.tx')
@@ -100,11 +98,19 @@ class FinScriptInterpreter:
             result = None  # Initialize the result to track control flow statements
 
             # Output
-            if s.__class__.__name__ == "PrintString":
+            if s.__class__.__name__ == "PrintStringNL":
                 print(s.content)
-            elif s.__class__.__name__ == "Print":
+            elif s.__class__.__name__ == "PrintNL":
                 if s.content in self.state:
                     print(self.state[s.content])
+                else:
+                    print(f"Variable '{s.content}' not declared")
+                    sys.exit(1)
+            elif s.__class__.__name__ == "PrintString":
+                print(s.content, end="")
+            elif s.__class__.__name__ == "Print":
+                if s.content in self.state:
+                    print(self.state[s.content], end="")
                 else:
                     print(f"Variable '{s.content}' not declared")
                     sys.exit(1)

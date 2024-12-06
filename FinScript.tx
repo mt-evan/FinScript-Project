@@ -40,15 +40,23 @@ ContinueStatement:
 
 // Output Statements
 Output:
-    PrintString | Print
+    PrintStringNL | PrintNL | PrintString | Print
 ;
 
 // Print a string
+PrintStringNL:
+    'println' '(' content=STRING ')'
+;
+
+// Print a variable
+PrintNL:
+    'println' '(' content=ID ')'
+;
+
 PrintString:
     'print' '(' content=STRING ')'
 ;
 
-// Print a variable
 Print:
     'print' '(' content=ID ')'
 ;
