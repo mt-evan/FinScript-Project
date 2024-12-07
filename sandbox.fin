@@ -7,5 +7,15 @@ println(principal)
 let rate <- 0.07 // Annual interest rate
 let years <- 10
 let futureValue <- compoundYearly(principal, rate, years)
-print("Future Value after 10 years: ")
+print("Future Value after 10 years without adding more money: ")
 println(futureValue)
+
+
+// If I had $500 every year
+years <- 1
+for (i <- 0 to 9) {
+    principal <- compoundYearly(principal, rate, years)
+    principal <- principal + 500 USD // Adding an addiitonal $500 every year
+}
+print("Future value after 10 years with adding $500 a year: ")
+println(principal)
