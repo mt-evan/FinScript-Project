@@ -23,3 +23,14 @@ and same with is_false
 #####################
 
 
+Next step is to allow currency conversions
+
+Example: 100USD -> EUR
+
+or
+
+let dollars <- 100USD
+let euros <- dollars -> EUR 
+but 
+let euros <- (dollars -> EUR) 
+may be more readable
