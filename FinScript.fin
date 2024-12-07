@@ -1,5 +1,5 @@
-let principal <- 10 - 6
-print(principal)
+let principal <- 10000 USD
+println(principal)
 
 
 
