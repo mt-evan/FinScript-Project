@@ -1,2 +1,28 @@
-let principal <- 2 + 10,000
-print(principal)
+let income <- 2500 USD
+let incomeAfterTax <- income - (income * 0.15)
+print("Income after tax is")
+print(incomeAfterTax)
+let rent <- 1500 USD
+let groceries <- 300 USD
+
+// Calculate savings
+let expenses <- -(rent + groceries)
+print("Expenses is:")
+print(expenses)
+let savings <- incomeAfterTax + expenses
+
+print("Savings is:")
+print(savings)
+
+// Conditional logic
+if (savings > 1000 USD) {
+    print("You are saving well!")
+} elif (savings > 0 USD) {
+    print("You are living paycheck to paycheck!")
+} else {
+    print("You are spending more than you have!")
+}
+
+// Output result
+print("Monthly savings:")
+print(savings)
