@@ -32,12 +32,12 @@ class FinScriptInterpreter:
         self.state = {}
 
     def compoundYearly(self, principal, rate, years):
-        return principal * (1 + rate / 100) ** years
+        return principal * (1 + rate ) ** years
 
     # In state, store the value for currencies as Currency objects
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
-        print("Expr: " + expr)
+        # print("Expr: " + expr)
 
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
@@ -48,16 +48,17 @@ class FinScriptInterpreter:
         expr = expr.replace("not =", "!=")
 
         # Update the regular expression to correctly identify tokens
-        # 
         tokens = re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]*\([^()]*\)|\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
-        print("Tokens: " + str(tokens))
+        # print("Tokens: " + str(tokens))
 
 
         # Replace function calls with their values
         for i, token in enumerate(tokens):
             if str(token) == "compoundYearly(principal,rate,years)":
-                tokens[i] = str(self.compoundYearly(self.state['principal'], self.state['rate'], self.state['years']))
+                tokens[i] = str(self.compoundYearly(self.state['principal'], self.state['rate'], self.state['years'])).replace(",", "")
+
+        # print("Tokens are: " + str(tokens))
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
