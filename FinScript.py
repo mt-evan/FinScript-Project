@@ -95,7 +95,7 @@ class FinScriptInterpreter:
         for s in statements:
             result = None  # Initialize the result to track control flow statements
 
-            # print(s.__class__.__name__)
+            print(s.__class__.__name__)
 
             # Output
             if s.__class__.__name__ == "PrintStringNL":
@@ -117,7 +117,7 @@ class FinScriptInterpreter:
 
             # Declaration
             elif s.__class__.__name__ == "Declaration":
-                # print(s.var + " = " + str(s.expr))
+                print(s.var + " = " + str(s.expr))
                 if s.var in self.state:
                     print(f"Variable '{s.var}' already declared")
                     sys.exit(1)

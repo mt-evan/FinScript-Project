@@ -121,11 +121,7 @@ Factor:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | MoneyValue | FLOAT | INT | ID | '(' Expression ')' //| FunctionCall
-;
-
-FunctionCall:
-    funcName=ID '(' (args+=Expression (',' args+=Expression)*)? ')'
+    BOOL | MoneyValue | FLOAT | INT | ID | '(' Expression ')'
 ;
 
 MoneyValue:
