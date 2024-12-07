@@ -1,6 +1,6 @@
 // The top-level program that contains all statements
 Program:
-    statements*=Statement
+    (statements*=Statement)*
 ;
 
 // The different types of statements
@@ -84,7 +84,8 @@ FunctionDefinition:
 // Function Call
 FunctionCall:
    // funcName=ID '(' args*=Expression (',' args+=Expression)* ')'
-   'compoundYearly(' 'principal' ',' 'rate' ',' 'years' ')'     //this does not mess up the parsing
+   'compoundYearly' '(' 'principal' ',' 'rate' ',' 'years' ')'    //good
+  | 'postTaxReturn' '(' 'interestRate' ',' 'taxRate' ')'          // good maybe
   //'&&&'
   // funcName=FuncID //'(' args*=Expression (',' args+=Expression)* ')'
 ;
