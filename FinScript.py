@@ -353,14 +353,13 @@ class Currency:
 file_path = "sandbox.fin"
 # file_path = "Program1.fin"
 
+Fin_Script_fin = "FinScript.fin"
+
 # Create a FinScript.fin file if there is not already one in the directory
 if not os.path.exists("FinScript.fin"):
-    open(file_path, 'w').close()
-Fin_Script_fin = "FinScript.fin"
+    # Create a new file called FinScript.fin
+    open(Fin_Script_fin, 'w').close()
 preprocess_file(file_path, Fin_Script_fin)
 finscript_model = finscript_mm.model_from_file(Fin_Script_fin)
 interpreter = FinScriptInterpreter()
 interpreter.interpret(finscript_model)
-
-
-
