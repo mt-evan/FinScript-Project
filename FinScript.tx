@@ -81,41 +81,47 @@ Expression:
     BooleanExpression
 ;
 
-// Boolean expressions: Includes logical not and logical or
+// Boolean expressions: Logical OR has the lowest precedence
 BooleanExpression:
-    BooleanTerm (('||' BooleanTerm)*)  // OR has lower precedence
+    BooleanTerm ('||' BooleanTerm)*
 ;
 
-// Boolean terms: Includes logical and and negation
+// Boolean terms: Logical AND has higher precedence than OR
 BooleanTerm:
-    BooleanFactor ('&&' BooleanFactor)*  // AND has higher precedence
+    BooleanFactor ('&&' BooleanFactor)*
 ;
 
-// Boolean factor: Includes negation and comparisons
+// Boolean factors: Logical NOT has the highest precedence
 BooleanFactor:
-    ('!' BooleanFactor)               // NOT has higher precedence, applied to BooleanFactor
-    | '-'? Comparison
-    | '(' Expression ')'
+    '!' BooleanFactor
+    | Comparison
+    | '(' BooleanExpression ')'
 ;
 
 // Comparison expressions: Includes equality, inequality, and relational operators
 Comparison:
-    Sum (('==' | '!=' | '<=' | '>=' | '<' | '>') Sum)?
+    ArithmeticExpression (('==' | '!=' | '<=' | '>=' | '<' | '>') ArithmeticExpression)?
 ;
 
-// Sum expressions: Includes addition, subtraction, and modulus operators
-Sum:
-    Product (('+' | '-' | '%') Product)* 
+// Arithmetic expressions: Addition and subtraction have lower precedence
+ArithmeticExpression:
+    Term (('+' | '-') Term)*
 ;
 
-// Product expressions: Includes multiplication and division
-Product:
-    Value (('*' | '/') Value)* 
+// Terms: Multiplication, division, and modulus have higher precedence
+Term:
+    Factor (('*' | '/' | '%') Factor)*
+;
+
+// Factors: Negation has the highest precedence within arithmetic
+Factor:
+    '-' Factor
+    | Value
 ;
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')' //| FunctionCall
+    BOOL | MoneyValue | FLOAT | INT | ID | '(' Expression ')' //| FunctionCall
 ;
 
 FunctionCall:
@@ -123,7 +129,7 @@ FunctionCall:
 ;
 
 MoneyValue:
-    '-'? (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
+    (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
 
 // Boolean values: true and false
