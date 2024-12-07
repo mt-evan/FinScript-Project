@@ -84,13 +84,14 @@ FunctionDefinition:
 // Function Call
 FunctionCall:
    // funcName=ID '(' args*=Expression (',' args+=Expression)* ')'
-   //'$$$' //this does not mess up the parsing
-   funcName=FuncID '(' args*=Expression (',' args+=Expression)* ')'
+   'compoundYearly(' 'principal' ',' 'rate' ',' 'years' ')'     //this does not mess up the parsing
+  //'&&&'
+  // funcName=FuncID //'(' args*=Expression (',' args+=Expression)* ')'
 ;
 
 // Expressions (can now include both Boolean and Arithmetic expressions)
 Expression:
-    ArithmeticExpression | BooleanExpression | FunctionCall
+    ArithmeticExpression | BooleanExpression
 ;
 
 // Boolean expressions: Logical OR has the lowest precedence
@@ -133,7 +134,7 @@ Factor:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | MoneyValue | FLOAT | INT | ID | '(' Expression ')'
+    FunctionCall | BOOL | MoneyValue | FLOAT | INT | ID | '(' Expression ')'
 ;
 
 MoneyValue:
