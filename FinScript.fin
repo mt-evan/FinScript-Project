@@ -1,30 +1,11 @@
-println()
+let principal <- 10000 USD * 2
+print(principal)
 
-let income <- 2500 USD
-let incomeAfterTax <- income - (income * 0.15)
-print("Income after tax is ")
-println(incomeAfterTax)
-let rent <- 1500 USD
-let groceries <- 300 USD
 
-// Calculate savings
-let expenses <- -(rent + groceries)
-print("Expenses is: ")
-println(expenses)
-let savings <- incomeAfterTax + expenses
 
-print("Savings is ")
-println(savings)
 
-// Conditional logic
-if (savings > 1000 USD) {
-    println("You are saving well!")
-} elif (savings > 0 USD) {
-    println("You are living paycheck to paycheck!")
-} else {
-    println("You are spending more than you have!")
-}
-
-// Output result
-print("Monthly savings: ")
-println(savings)
+//let rate <- 0.07 // Annual interest rate
+//let years <- 10
+//let futureValue <- compound(principal, rate, years)
+//print("Future Value after 10 years: ")
+//println(futureValue)
