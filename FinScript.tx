@@ -5,7 +5,7 @@ Program:
 
 // The different types of statements
 Statement:
-    Output | Assignment | IfStatement | ForLoop | WhileLoop | BreakStatement | ContinueStatement
+    Output | Assignment | IfStatement | ForLoop | WhileLoop | BreakStatement | ContinueStatement | FunctionCall
 ;
 
 // If Statement (includes elif and else)
@@ -76,9 +76,21 @@ Reassignment:
     var=ID '<-' expr=Expression
 ;
 
-// Expressions (Boolean expressions as the base case)
+// Function Definition
+FunctionDefinition:
+    'function' funcName=ID '(' params*=ID (',' params+=ID)* ')' '{' body+=Statement* '}'
+;
+
+// Function Call
+FunctionCall:
+   // funcName=ID '(' args*=Expression (',' args+=Expression)* ')'
+   //'$$$' //this does not mess up the parsing
+   funcName=FuncID '(' args*=Expression (',' args+=Expression)* ')'
+;
+
+// Expressions (can now include both Boolean and Arithmetic expressions)
 Expression:
-    BooleanExpression
+    ArithmeticExpression | BooleanExpression //| FunctionCall
 ;
 
 // Boolean expressions: Logical OR has the lowest precedence
@@ -127,6 +139,8 @@ Value:
 MoneyValue:
     (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
+
+FuncID: /[a-zA-Z_][a-zA-Z0-9_]*\(/    ;
 
 // Boolean values: true and false
 BOOL: 'true' | 'false';

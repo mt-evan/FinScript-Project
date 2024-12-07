@@ -1,4 +1,4 @@
-let principal <- 10000 USD * 2
+let principal <- 10 - 6
 print(principal)
 
 
