@@ -36,6 +36,9 @@ class FinScriptInterpreter:
     
     def postTaxReturn(self, interestRate, taxRate):
         return interestRate - (taxRate * interestRate)
+    
+    def inflation(self, currentValue, inflationRate, years):
+        return currentValue * (1 + inflationRate) ** years
 
     # In state, store the value for currencies as Currency objects
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
@@ -62,6 +65,8 @@ class FinScriptInterpreter:
                 tokens[i] = str(self.compoundYearly(self.state['principal'], self.state['rate'], self.state['years'])).replace(",", "")
             elif str(token) == "postTaxReturn(interestRate,taxRate)":
                 tokens[i] = str(self.postTaxReturn(self.state['interestRate'], self.state['taxRate'])).replace(",", "")
+            elif str(token) == "inflation(currentValue,inflationRate,years)":
+                tokens[i] = str(self.inflation(self.state['currentValue'], self.state['inflationRate'], self.state['years'])).replace(",", "")
 
         # print("Tokens are: " + str(tokens))
 

@@ -86,6 +86,7 @@ FunctionCall:
    // funcName=ID '(' args*=Expression (',' args+=Expression)* ')'
    'compoundYearly' '(' 'principal' ',' 'rate' ',' 'years' ')'    //good
   | 'postTaxReturn' '(' 'interestRate' ',' 'taxRate' ')'          // good maybe
+  | 'inflation' '(' 'currentValue' ',' 'inflationRate' ',' 'years' ')'
   //'&&&'
   // funcName=FuncID //'(' args*=Expression (',' args+=Expression)* ')'
 ;
