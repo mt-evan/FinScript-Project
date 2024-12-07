@@ -45,12 +45,12 @@ Output:
 
 // Print a string
 PrintStringNL:
-    'println' '(' content=STRING ')'
+    'println' '(' content=STRING ')' | 'println' '()'
 ;
 
 // Print a variable
 PrintNL:
-    'println' '(' content=ID ')'
+    ('println' '(' content=ID ')')
 ;
 
 PrintString:
