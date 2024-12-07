@@ -115,7 +115,7 @@ Product:
 
 // Values: Integer, Boolean, ID (variable), or nested expressions
 Value:
-    BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')'
+    BOOL | MoneyValue | FLOAT | INT | ID | ('-'? (FLOAT | INT)) | '(' Expression ')' //| FunctionCall
 ;
 
 FunctionCall:
@@ -130,10 +130,10 @@ MoneyValue:
 BOOL: 'true' | 'false';
 
 // Integer values: Integer literals
-INT: /[0-9,]+/;
+INT: /[0-9]+/;
 
 FLOAT:
-    /[0-9,]*\.[0-9,]+/
+    /[0-9]*\.[0-9]+/
 ;
 
 // Identifier: Variable names (alphanumeric with optional underscores)

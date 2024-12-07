@@ -34,7 +34,7 @@ class FinScriptInterpreter:
     # In state, store the value for currencies as Currency objects
     # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
-        print(expr)
+        print("Expr: " + expr)
 
         # Replace logical operators and boolean values
         expr = expr.replace("||", " or ")
@@ -47,7 +47,7 @@ class FinScriptInterpreter:
         # Update the regular expression to correctly identify tokens
         tokens = re.findall(r'\d+(?:\.\d+)?(?:USD|EUR|GBP|JPY)|==|!=|<=|>=|[+\-*/%()=<>&!|]|-?\d+\.\d+|-?\d+|[a-zA-Z_][a-zA-Z0-9_]*', expr)
 
-        # print(tokens)
+        print("Tokens: " + str(tokens))
 
         for i, token in enumerate(tokens):
             # If the token is a currency literal
@@ -95,6 +95,8 @@ class FinScriptInterpreter:
         for s in statements:
             result = None  # Initialize the result to track control flow statements
 
+            print(s.__class__.__name__)
+
             # Output
             if s.__class__.__name__ == "PrintStringNL":
                 print(s.content)
@@ -115,6 +117,7 @@ class FinScriptInterpreter:
 
             # Declaration
             elif s.__class__.__name__ == "Declaration":
+                print(s.var + " = " + str(s.expr))
                 if s.var in self.state:
                     print(f"Variable '{s.var}' already declared")
                     sys.exit(1)

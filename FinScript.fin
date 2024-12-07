@@ -1,2 +1,2 @@
-let principal <- 2 + 10000 USD 
+let principal <- 2 + 10000
 print(principal)
