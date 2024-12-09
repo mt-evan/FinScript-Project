@@ -258,10 +258,10 @@ class FinScriptInterpreter:
         return None  # Indicates normal execution, no special control flow actions
 
 class Currency:
-    # Exchange rates relative to USD (can be updated dynamically)
+    # Exchange rates relative to USD
     exchange_rates = {
         'USD': 1.0,
-        'EUR': 0.85,
+        'EUR': 0.9476,
         'GBP': 0.75,
         'JPY': 110.0
     }
