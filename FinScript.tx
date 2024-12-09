@@ -97,7 +97,7 @@ FunctionCall:
 
 // Expressions (can now include both Boolean and Arithmetic expressions)
 Expression:
-    ArithmeticExpression | BooleanExpression
+    BooleanExpression | ArithmeticExpression
 ;
 
 // Boolean expressions: Logical OR has the lowest precedence

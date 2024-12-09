@@ -16,4 +16,8 @@ println(number)
 
 
 let exampleNum <- 100,000 - 50,000
-print(exampleNum)
+println(exampleNum)
+
+if (exampleNum > 10) {
+    println("Big Number")
+}

@@ -379,7 +379,7 @@ class Currency:
 
 
 # Test Program
-file_path = "sandbox.fin"
+# file_path = "sandbox.fin"
 # file_path = "Program1.fin"
 # file_path = "Program2.fin"
 # file_path = "Program3.fin"
@@ -387,6 +387,7 @@ file_path = "sandbox.fin"
 # file_path = "Program5.fin"
 # file_path = "Program6.fin"
 # file_path = "Program7.fin"
+file_path = "FizzBuzz.fin"
 
 Fin_Script_fin = "FinScript.fin"
 
