@@ -1,4 +1,7 @@
-cr7Price = 100,000,000
+def x ():
+    return '52'
 
-juventusBudget = 200,000,000
-print(juventusBudget)
+x = 5
+y = x()
+
+print(y)

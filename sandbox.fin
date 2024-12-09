@@ -1,17 +1,10 @@
-// Post-tax return function
-let interestRate <- 0.08
-let taxRate <- 0.25
-let postTaxReturn <- postTaxReturn(interestRate, taxRate)
+let x <- 1000EUR
+println(x)
+let y <- 1000JPY
+println(y)
+//let z <- 1USD * x + y
+//print(z)
 
-print("Post-tax return: ")
-println(postTaxReturn)
 
-// Inflation
-
-let currentValue <- 1000USD
-let inflationRate <- 0.03
-let years <- 5
-let futureValue <- inflation(currentValue, inflationRate, years)
-
-print("Future value of $1,000 after 5 years with a 3% inflation rate: ")
-println(futureValue)
+let z <- 1USD + 5EUR
+print(z)
