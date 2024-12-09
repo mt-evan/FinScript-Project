@@ -1,28 +1,58 @@
 // Example of the 50/30/20 rule
-// 50% goes to Needs
 let incomeAfterTax <- 4000 USD
+print("Amount of money after tax: ")
+println(incomeAfterTax)
+println()
+
+
+// 50% goes to Needs
 let rent <- 1200 USD
 let groceries <- 300 USD
 let utilities <- 150 USD
 let misc <- 200 USD
-let expenses <- rent + groceries + utilities + misc 
+let NEEDS <- rent + groceries + utilities + misc 
+let leftOver <- incomeAfterTax - NEEDS
+let percentage <- NEEDS / incomeAfterTax * 100
 
-let leftOver <- incomeAfterTax - expenses
 print("Amount of money after 'Needs': ")
 println(leftOver)
+print("Amount of money spent on 'Needs': ")
+println(NEEDS)
 print("That was about ")
-let percentage <- leftOver / incomeAfterTax
 print(percentage)
-print(" percent of the paycheck.")
+println("% of the paycheck.")
+println()
+
 
 // 30% goes to Wants
-let eatingOut <- 100 USD
-let subscriptions <- 100 USD
-misc <- 200 USD
-let entertainment <- eatingOut + subscriptions + misc
-leftOver <- leftOver - entertainment
-print("Amount of money after 'Wants': ")
-print(leftOver)
-let percentage <- leftOver / incomeAfterTax
+let eatingOut <- 250 USD
+let subscriptions <- 150 USD
+let shopping <- 200 USD
+misc <- 450 USD
+let WANTS <- eatingOut + subscriptions + shopping + misc
+leftOver <- leftOver - WANTS
+percentage <- WANTS / incomeAfterTax * 100
+
+print("Amount of money after 'Needs' and 'Wants': ")
+println(leftOver)
+print("Amount of money spent on 'Wants': ")
+println(WANTS)
+print("That was about ")
 print(percentage)
-print(" percent of the paycheck.")
+println("% of the paycheck.")
+println()
+
+
+// 20% goes to Savings
+print("Amount of money for savings/investments: ")
+println(leftOver)
+
+
+let contribution_savings_account <- leftOver * 0.2
+let contribution_stocks <- leftOver * 0.4
+let contribution_crypto <- leftOver * 0.4
+leftOver <- leftOver - contribution_savings_account - contribution_stocks - contribution_crypto
+
+print("Amount of money going into savings account: ") println(contribution_savings_account)
+print("Amount of money going into stocks: ") println(contribution_stocks)
+print("Amount of money going into crypto: ") println(contribution_crypto)

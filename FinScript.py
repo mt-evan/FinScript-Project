@@ -318,7 +318,10 @@ class Currency:
     def __truediv__(self, other):
         if isinstance(other, (int, float)):  # If other is a number
             return Currency(self.amount / other, self.currency)
-        raise TypeError(f"Cannot divide something by {type(other)}")
+        if isinstance(other, Currency):  # If other is another Currency
+            other_converted = other.convert_to(self.currency)
+            return self.amount / other_converted.amount
+        raise TypeError(f"Cannot divide {type(other)} with Currency")
 
     def __rtruediv__(self, other):
         raise TypeError("Cannot divide something by Currency")
@@ -371,6 +374,7 @@ class Currency:
 
     def __repr__(self):
         return str(self)
+
 
 
 
