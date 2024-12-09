@@ -1,0 +1,8 @@
+let x <- 1000EUR
+println(x)
+let y <- 1000JPY
+println(y)
+let z <- x + y
+z to USD
+println(z)
+
