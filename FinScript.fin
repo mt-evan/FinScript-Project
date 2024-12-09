@@ -1,11 +1,11 @@
-let x <- 1000EUR
-println(x)
-let y <- 1000JPY
-println(y)
+//let x <- 1000EUR
+//println(x)
+//let y <- 1000JPY
+//println(y)
 //let z <- 1USD * x + y
 //print(z)
 
 
 let z <- 5EUR + 20EUR
-//z to USD
+z to USD
 print(z)

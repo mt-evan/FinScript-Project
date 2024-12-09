@@ -108,6 +108,13 @@ class FinScriptInterpreter:
 
         # print(f"Result: {result}")
         return result
+    
+    # var is the variable to be converted to the desired currency
+    def currencyConverter(self, var, currency):
+        if var in self.state:
+            return self.state[var].convert_to(currency)
+        else:
+            raise ValueError(f"Variable '{var}' not defined.")
 
     def interpret(self, model):
         # Ensure the input is iterable
@@ -116,7 +123,7 @@ class FinScriptInterpreter:
         for s in statements:
             result = None  # Initialize the result to track control flow statements
 
-            # print(s.__class__.__name__)
+            print(s.__class__.__name__)
 
             # Output
             if s.__class__.__name__ == "PrintStringNL":
@@ -151,6 +158,14 @@ class FinScriptInterpreter:
                     print(f"Variable '{s.var}' not declared")
                     sys.exit(1)
                 value_to_store = self.math_parser(str(s.expr))
+                self.state[s.var] = value_to_store
+
+            # Explicit Currency Change
+            elif s.__class__.__name__ == "CurrencyChange":
+                if s.var not in self.state:
+                    print(f"Variable '{s.var}' not declared")
+                    sys.exit(1)
+                value_to_store = self.currencyConverter(s.var, s.newCurrency)
                 self.state[s.var] = value_to_store
 
             # If Statement

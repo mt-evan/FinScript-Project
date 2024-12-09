@@ -77,7 +77,7 @@ Reassignment:
 ;
 
 CurrencyChange:
-    var=ID 'to ' Currencies
+    var=ID 'to ' newCurrency=Currencies
 ;
 
 // Function Definition
