@@ -8,5 +8,5 @@ println(z)
 
 let number <- 30
 println(number)
-number to EUR
+number <- number * 1EUR
 println(number)
