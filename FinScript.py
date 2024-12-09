@@ -379,9 +379,9 @@ class Currency:
 
 
 # Test Program
-# file_path = "sandbox.fin"
+file_path = "sandbox.fin"
 # file_path = "Program1.fin"
-file_path = "Program2.fin"
+# file_path = "Program2.fin"
 # file_path = "Program3.fin"
 # file_path = "Program4.fin"
 # file_path = "Program5.fin"

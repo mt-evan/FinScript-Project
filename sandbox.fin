@@ -6,3 +6,7 @@ let z <- x + y
 z to USD
 println(z)
 
+let number <- 30
+println(number)
+number to EUR
+println(number)
