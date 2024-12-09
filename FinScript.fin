@@ -1,8 +1,28 @@
-let x <- 1000EUR
-println(x)
-let y <- 1000JPY
-println(y)
-let z <- x + y
-z to USD
-println(z)
+// Example of the 50/30/20 rule
+// 50% goes to Needs
+let incomeAfterTax <- 4000 USD
+let rent <- 1200 USD
+let groceries <- 300 USD
+let utilities <- 150 USD
+let misc <- 200 USD
+let expenses <- rent + groceries + utilities + misc 
 
+let leftOver <- incomeAfterTax - expenses
+print("Amount of money after 'Needs': ")
+println(leftOver)
+print("That was about ")
+let percentage <- leftOver / incomeAfterTax
+print(percentage)
+print(" percent of the paycheck.")
+
+// 30% goes to Wants
+let eatingOut <- 100 USD
+let subscriptions <- 100 USD
+misc <- 200 USD
+let entertainment <- eatingOut + subscriptions + misc
+leftOver <- leftOver - entertainment
+print("Amount of money after 'Wants': ")
+print(leftOver)
+let percentage <- leftOver / incomeAfterTax
+print(percentage)
+print(" percent of the paycheck.")
