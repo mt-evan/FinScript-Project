@@ -258,12 +258,12 @@ class FinScriptInterpreter:
         return None  # Indicates normal execution, no special control flow actions
 
 class Currency:
-    # Exchange rates relative to USD
+    # Exchange rates relative to USD to 4 decimal places
     exchange_rates = {
         'USD': 1.0,
         'EUR': 0.9476,
-        'GBP': 0.75,
-        'JPY': 110.0
+        'GBP': 0.7851,
+        'JPY': 149.9444
     }
 
     def __init__(self, amount, currency):
