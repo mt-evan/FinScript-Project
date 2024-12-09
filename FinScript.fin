@@ -6,5 +6,6 @@ println(y)
 //print(z)
 
 
-let z <- 1USD + 5EUR
+let z <- 5EUR + 20EUR
+//z to USD
 print(z)

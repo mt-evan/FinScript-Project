@@ -63,7 +63,7 @@ Print:
 
 // Assignment statement (either Declaration or Reassignment)
 Assignment:
-    Declaration | Reassignment
+    Declaration | Reassignment | CurrencyChange
 ;
 
 // Declaration of a new variable
@@ -74,6 +74,10 @@ Declaration:
 // Reassignment of an existing variable
 Reassignment:
     var=ID '<-' expr=Expression
+;
+
+CurrencyChange:
+    var=ID 'to ' Currencies
 ;
 
 // Function Definition
@@ -140,7 +144,11 @@ Value:
 ;
 
 MoneyValue:
-    (FLOAT | INT) ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
+    (FLOAT | INT) Currencies
+;
+
+Currencies:
+    ('USD' | 'EUR' | 'GBP' | 'JPY')  // Add more currencies
 ;
 
 FuncID: /[a-zA-Z_][a-zA-Z0-9_]*\(/    ;
