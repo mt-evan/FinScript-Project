@@ -56,3 +56,10 @@ leftOver <- leftOver - contribution_savings_account - contribution_stocks - cont
 print("Amount of money going into savings account: ") println(contribution_savings_account)
 print("Amount of money going into stocks: ") println(contribution_stocks)
 print("Amount of money going into crypto: ") println(contribution_crypto)
+
+let savings <- incomeAfterTax - NEEDS - WANTS
+percentage <- savings / incomeAfterTax * 100 
+percentage <- percentage - 0.5
+
+print(percentage)
+println("% of money is going into savings or investments.")
