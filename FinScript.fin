@@ -6,6 +6,7 @@
 //print(z)
 
 
-let z <- 5EUR + 20EUR
-z to USD
+let z <- 1
+z <- z * 1USD
+z to USD 
 print(z)

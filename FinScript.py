@@ -123,7 +123,7 @@ class FinScriptInterpreter:
         for s in statements:
             result = None  # Initialize the result to track control flow statements
 
-            print(s.__class__.__name__)
+            # print(s.__class__.__name__)
 
             # Output
             if s.__class__.__name__ == "PrintStringNL":
