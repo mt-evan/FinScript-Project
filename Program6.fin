@@ -13,5 +13,5 @@ let inflationRate <- 0.03
 let years <- 5
 let futureValue <- inflation(currentValue, inflationRate, years)
 
-print("Future value of $1,000 after 5 years with a 3% inflation rate: ")
+print("Future value of $1000 after 5 years with a 3% inflation rate: ")
 println(futureValue)

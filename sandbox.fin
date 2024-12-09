@@ -10,3 +10,10 @@ let number <- 30
 println(number)
 number <- number * 1EUR
 println(number)
+
+
+
+
+
+let exampleNum <- 100,000 - 50,000
+print(exampleNum)
