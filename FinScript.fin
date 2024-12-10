@@ -1,38 +1,7 @@
-// Example with a $40/hr 10 week summer internship
-let weeklyIncome <- 1600 USD
-let numWeeks <- 10
-let summerIncome <- weeklyIncome * numWeeks
-print("Before taxes, I would make about ") println(summerIncome)
-
-// Guess on initial taxes
-let money <- summerIncome * 0.85
-print("Guess on income after initial tax is about ") println(money)
-
-// Estimated expenses
-let food <- 1000 USD
-let entertainment <- 900 USD
-let transportation <- 500 USD
-let misc <- 700 USD
-let theRiveRent <- 2000 USD
-money <- money - (food + entertainment + transportation + misc + theRiveRent)
-print("Amount of money after spending it over the ten weeks: ") println(money)
-
-// Good thing to do with leftover money
-let studentLoans <- 1000 USD
-money <- money - studentLoans
-
-let investments <- money / 2
-money <- money - (money / 2)
-let savings <- money
-money <- money - money
-
-print("Amount of money for investments and savings respectively: ")
-print(investments) print(" and ") println(savings)
-
-print("Amount of money left over: ") println(money)
-
-// Example: I am moving to Japan after
-savings to JPY
-investments to JPY
-print("Amount of money for investments and savings respectively: ")
-print(investments) print(" and ") println(savings)
+let usd_amount <- 100USD
+let eur_amount <- usd_amount
+eur_amount to EUR
+let total <- usd_amount + eur_amount
+println(usd_amount)  // Should print: 100.00USD
+println(eur_amount)  // Should print the equivalent amount in EUR
+println(total)  // Should handle addition and print the result in USD
