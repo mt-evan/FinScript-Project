@@ -16,3 +16,6 @@ for (i <- 0 to 9) {
 
 print("Future value after 10 years with adding $500 a year: ")
 println(principal)
+futureValue to JPY
+let ratio <- futureValue / principal
+println(ratio)

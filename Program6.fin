@@ -2,12 +2,9 @@
 let interestRate <- 0.08
 let taxRate <- 0.25
 let postTaxReturn <- postTaxReturn(interestRate, taxRate)
-
-print("Post-tax return: ")
-println(postTaxReturn)
+print("Post-tax return: ") println(postTaxReturn)
 
 // Inflation
-
 let currentValue <- 1000USD
 let inflationRate <- 0.03
 let years <- 5

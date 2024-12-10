@@ -1,7 +1,24 @@
-let usd_amount <- 100USD
-let eur_amount <- usd_amount
-eur_amount to EUR
-let total <- usd_amount + eur_amount
-println(usd_amount)  // Should print: 100.00USD
-println(eur_amount)  // Should print the equivalent amount in EUR
-println(total)  // Should handle addition and print the result in USD
+let incomeAfterTax <- 2500 USD * 0.85
+print("Income after tax is ") println(incomeAfterTax)
+let rent <- 1500 USD
+let groceries <- 300 USD
+
+// Calculate savings
+let expenses <- -(rent + groceries)
+print("Expenses is: ") println(expenses)
+let savings <- incomeAfterTax + expenses
+print("Savings is ") println(savings)
+
+// Conditional logic
+if (savings > 800 EUR) {
+    println("You are saving well!")
+} elif (savings > 0 EUR) {
+    println("You are living paycheck to paycheck!")
+} else {
+    println("You are spending more than you have!")
+}
+
+// Output result
+savings to EUR
+print("Monthly savings: ")
+println(savings)
