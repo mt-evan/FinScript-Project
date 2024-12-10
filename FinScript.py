@@ -31,6 +31,7 @@ class FinScriptInterpreter:
     def __init__(self):
         self.state = {}
 
+    # Built in finance functions, add more
     def compoundYearly(self, principal, rate, years):
         return principal * (1 + rate ) ** years
     
@@ -40,8 +41,6 @@ class FinScriptInterpreter:
     def inflation(self, currentValue, inflationRate, years):
         return currentValue * (1 + inflationRate) ** years
 
-    # In state, store the value for currencies as Currency objects
-    # update parser so that it sees any 100USD and changes it to a Currency object and can do math with Currency objects by accessing it's amount field
     def math_parser(self, expr):
         # print("Expr: " + expr)
 
@@ -109,7 +108,6 @@ class FinScriptInterpreter:
         # print(f"Result: {result}")
         return result
     
-    # var is the variable to be converted to the desired currency
     def currencyConverter(self, var, currency):
         if var in self.state:
             return self.state[var].convert_to(currency)
@@ -328,7 +326,7 @@ class Currency:
         raise TypeError("Cannot divide something by Currency")
 
     def __neg__(self):
-        """Unary negation."""
+        # Unary negation, this is not subtraction
         return Currency(-self.amount, self.currency)
 
     def __eq__(self, other):
@@ -371,7 +369,6 @@ class Currency:
 
     def __str__(self):
         return f"{self.amount:,.4f}{self.currency}"
-
 
     def __repr__(self):
         return str(self)
