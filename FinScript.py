@@ -259,6 +259,7 @@ class FinScriptInterpreter:
 
 class Currency:
     # Exchange rates relative to USD to 4 decimal places
+    # These flunctuate all the time, better to import from an API
     exchange_rates = {
         'USD': 1.0,
         'EUR': 0.9476,
