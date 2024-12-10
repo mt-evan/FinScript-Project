@@ -1,6 +1,42 @@
-function loanPayment(principal, rate, years) {
-    return principal * (rate / 12) / (1 - (1 + rate / 12) ^ (-12 * years));
-}
-let payment = loanPayment(250000 $USD, @3.5%, 30 years);
-print("Monthly Payment:");
-print(payment)
+// Personal use for me
+
+let weeklyIncome <- 1610 USD
+let numWeeks <- 10
+let summerIncome <- weeklyIncome * numWeeks
+print("Before taxes, I would make about ")
+println(summerIncome)
+
+// My guess on initial taxes
+let money <- summerIncome * 0.85
+print("Guess on income after initial tax is about ")
+println(money)
+
+// My estimated expenses
+let food <- 1000 USD
+let entertainment <- 900 USD
+let transportation <- 500 USD
+let misc <- 700 USD
+let theRiveRent <- 2000 USD
+money <- money - (food + entertainment + transportation + misc + theRiveRent)
+print("Amount of money after spending it over the ten weeks: ")
+println(money)
+
+// What I might do with left over money
+let unsubsidizedLoanAmount <- 1000 USD
+money <- money - unsubsidizedLoanAmount
+
+let investments <- money / 2
+money <- money - (money / 2)
+let savings <- money
+money <- money - money
+
+print("Amount of money for investments and savings respectively: ")
+print(investments) print(" and ") println(savings)
+
+print("Amount of money left over: ") println(money)
+
+// Example: I am moving to Japan
+savings to JPY
+investments to JPY
+print("Amount of money for investments and savings respectively: ")
+print(investments) print(" and ") println(savings)
